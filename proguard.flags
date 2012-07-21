@@ -1,0 +1,3 @@
+# Keep all Providers in this package...
+-keep class com.motorola.fmradio.*Provider
+
