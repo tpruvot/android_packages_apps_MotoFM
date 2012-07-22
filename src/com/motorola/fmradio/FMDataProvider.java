@@ -17,7 +17,7 @@ import android.util.Log;
 public class FMDataProvider extends ContentProvider {
     private static final String TAG = "FMDataProvider";
 
-    private static final String AUTHORITY = "com.motorola.provider.fmradio";
+    private static final String AUTHORITY = "com.motorola.fmradio.FMDataProvider";
     private static final String DATABASE_NAME = "fmradio.db";
     private static final int DATABASE_VERSION = 1;
 
