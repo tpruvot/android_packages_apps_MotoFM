@@ -578,7 +578,7 @@ public class FMRadioPlayerService extends Service {
                         setFMMuteState(true);
                     }
                 } else if (action.equals(AudioManager.VOLUME_CHANGED_ACTION)) {
-                    if (intent.getIntExtra(AudioManager.EXTRA_VOLUME_STREAM_TYPE, -1) == AudioManager.STREAM_FM) {
+                    if (intent.getIntExtra(AudioManager.EXTRA_VOLUME_STREAM_TYPE, -1) == FMUtil.STREAM_FM) {
                         int volume = intent.getIntExtra(AudioManager.EXTRA_VOLUME_STREAM_VALUE, 0);
                         Log.d(TAG, "Received FM volume change intent, setting volume to " + volume);
                         Preferences.setVolume(FMRadioPlayerService.this, volume);
