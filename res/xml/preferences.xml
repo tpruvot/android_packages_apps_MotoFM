@@ -20,6 +20,7 @@
                         android:title="@string/tuning_settings_title">
 
         <ListPreference android:key="seek_sensitivity"
+                        android:layout="?android:attr/preferenceLayoutChild"
                         android:defaultValue="12"
                         android:title="@string/seek_sensitivity_title"
                         android:summary="@string/seek_sensitivity_summary"
