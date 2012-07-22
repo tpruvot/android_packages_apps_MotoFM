@@ -281,7 +281,7 @@ public class FMRadioMain extends Activity implements SeekBar.OnSeekBarChangeList
                             mProgressDialog = null;
                         }
                         enableUI(true);
-                        mAM.setStreamVolume(AudioManager.STREAM_FM, Preferences.getVolume(context), 0);
+                        mAM.setStreamVolume(FMUtil.STREAM_FM, Preferences.getVolume(context), 0);
                         if (isDBEmpty() || !Preferences.isScanned(context)) {
                             showDialog(DIALOG_IF_SCAN_FIRST);
                         }
@@ -427,7 +427,7 @@ public class FMRadioMain extends Activity implements SeekBar.OnSeekBarChangeList
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.main);
-        setVolumeControlStream(AudioManager.STREAM_FM);
+        setVolumeControlStream(FMUtil.STREAM_FM);
 
         mAM = (AudioManager) getSystemService(AUDIO_SERVICE);
         mCurFreq = Preferences.getLastFrequency(this);
