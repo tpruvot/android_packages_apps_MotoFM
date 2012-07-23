@@ -281,7 +281,7 @@ public class FMRadioMain extends Activity implements SeekBar.OnSeekBarChangeList
                             mProgressDialog = null;
                         }
                         enableUI(true);
-                        mAM.setStreamVolume(AudioManager.STREAM_FM, Preferences.getVolume(context), 0);
+                        mAM.setStreamVolume(FMUtil.STREAM_FM, Preferences.getVolume(context), 0);
                         if (isDBEmpty() || !Preferences.isScanned(context)) {
                             showDialog(DIALOG_IF_SCAN_FIRST);
                         }
@@ -427,7 +427,7 @@ public class FMRadioMain extends Activity implements SeekBar.OnSeekBarChangeList
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.main);
-        setVolumeControlStream(AudioManager.STREAM_FM);
+        setVolumeControlStream(FMUtil.STREAM_FM);
 
         mAM = (AudioManager) getSystemService(AUDIO_SERVICE);
         mCurFreq = Preferences.getLastFrequency(this);
@@ -590,7 +590,11 @@ public class FMRadioMain extends Activity implements SeekBar.OnSeekBarChangeList
         if (audioRouting == FMRadioPlayerService.FM_ROUTING_HEADSET) {
             menu.add(Menu.NONE, BY_LOUDSPEAKER_ID, Menu.FIRST + 2, R.string.by_loudspeaker).setIcon(R.drawable.ic_menu_loud_speaker);
         } else {
-            menu.add(Menu.NONE, BY_HEADSET_ID, Menu.FIRST + 2, R.string.by_headset).setIcon(R.drawable.ic_menu_header);
+            MenuItem headsetItem = menu.add(Menu.NONE, BY_HEADSET_ID, Menu.FIRST + 2, R.string.by_headset);
+            headsetItem.setIcon(R.drawable.ic_menu_header);
+            if (audioRouting == FMRadioPlayerService.FM_ROUTING_SPEAKER_ONLY) {
+                headsetItem.setEnabled(false);
+            }
         }
         return true;
     }
