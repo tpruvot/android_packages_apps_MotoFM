@@ -1,32 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <PreferenceCategory android:key="general"
-                        android:title="@string/general_settings_title">
-
-        <CheckBoxPreference android:key="ignore_airplane_mode"
-                            android:defaultValue="false"
-                            android:title="@string/ignore_airplane_title"
-                            android:summary="@string/ignore_airplane_summary" />
-
-        <CheckBoxPreference android:key="ignore_no_headset"
-                            android:defaultValue="false"
-                            android:title="@string/ignore_no_headset_title"
-                            android:summary="@string/ignore_no_headset_summary" />
-
+    <PreferenceCategory
+        android:key="general"
+        android:title="@string/general_settings_title" >
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="ignore_airplane_mode"
+            android:summary="@string/ignore_airplane_summary"
+            android:title="@string/ignore_airplane_title" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="ignore_no_headset"
+            android:summary="@string/ignore_no_headset_summary"
+            android:title="@string/ignore_no_headset_title" />
     </PreferenceCategory>
-
-    <PreferenceCategory android:key="tuning"
-                        android:title="@string/tuning_settings_title">
-
-        <ListPreference android:key="seek_sensitivity"
-                        android:layout="?android:attr/preferenceLayoutChild"
-                        android:defaultValue="12"
-                        android:title="@string/seek_sensitivity_title"
-                        android:summary="@string/seek_sensitivity_summary"
-                        android:entries="@array/seek_sensitivity_entries"
-                        android:entryValues="@array/seek_sensitivity_values" />
-
+    <PreferenceCategory
+        android:key="tuning"
+        android:title="@string/tuning_settings_title" >
+        <ListPreference
+            android:defaultValue="12"
+            android:entries="@array/seek_sensitivity_entries"
+            android:entryValues="@array/seek_sensitivity_values"
+            android:key="seek_sensitivity"
+            android:layout="?android:attr/preferenceLayoutChild"
+            android:summary="@string/seek_sensitivity_summary"
+            android:title="@string/seek_sensitivity_title" />
     </PreferenceCategory>
 
 </PreferenceScreen>
