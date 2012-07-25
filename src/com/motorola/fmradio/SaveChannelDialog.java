@@ -20,109 +20,117 @@ import com.motorola.fmradio.FMDataProvider.Channels;
 
 import java.util.ArrayList;
 
-public class SaveChannelDialog extends AlertDialog
-        implements DialogInterface.OnClickListener, CheckBox.OnCheckedChangeListener {
-    private int mFrequency;
-    private int mInitialPreset;
-    private String mInitialName;
+public class SaveChannelDialog extends AlertDialog implements
+		DialogInterface.OnClickListener, CheckBox.OnCheckedChangeListener {
+	private int mFrequency;
+	private int mInitialPreset;
+	private String mInitialName;
 
-    private OnSaveListener mListener;
-    private CheckBox mUseRdsName;
-    private Spinner mPresetSpinner;
-    private EditText mNameField;
+	private OnSaveListener mListener;
+	private CheckBox mUseRdsName;
+	private Spinner mPresetSpinner;
+	private EditText mNameField;
 
-    public interface OnSaveListener {
-        void onPresetSaved(int preset);
-        void onSaveCanceled();
-    }
+	public interface OnSaveListener {
+		void onPresetSaved(int preset);
 
-    public SaveChannelDialog(Context context, int frequency,
-            int initialPreset, String initialName, OnSaveListener listener) {
-        super(context);
+		void onSaveCanceled();
+	}
 
-        mFrequency = frequency;
-        mInitialPreset = initialPreset;
-        mInitialName = initialName;
-        mListener = listener;
-    }
+	public SaveChannelDialog(Context context, int frequency, int initialPreset,
+			String initialName, OnSaveListener listener) {
+		super(context);
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        View view = getLayoutInflater().inflate(R.layout.save_dialog, null);
-        Context context = getContext();
+		mFrequency = frequency;
+		mInitialPreset = initialPreset;
+		mInitialName = initialName;
+		mListener = listener;
+	}
 
-        setIcon(0);
-        setView(view);
-        setInverseBackgroundForced(true);
-        setTitle(R.string.save_preset);
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		View view = getLayoutInflater().inflate(R.layout.save_dialog, null);
+		Context context = getContext();
 
-        final TextView frequencyField = (TextView) view.findViewById(R.id.channel_frequency);
-        frequencyField.setText(FMUtil.formatFrequency(context, mFrequency));
+		setIcon(0);
+		setView(view);
+		setInverseBackgroundForced(true);
+		setTitle(R.string.save_preset);
 
-        mPresetSpinner = (Spinner) view.findViewById(R.id.preset_spinner);
-        mUseRdsName = (CheckBox) view.findViewById(R.id.use_rds_name);
-        mNameField = (EditText) view.findViewById(R.id.channel_name);
+		final TextView frequencyField = (TextView) view
+				.findViewById(R.id.channel_frequency);
+		frequencyField.setText(FMUtil.formatFrequency(context, mFrequency));
 
-        mNameField.setText(mInitialName);
-        mUseRdsName.setOnCheckedChangeListener(this);
-        mUseRdsName.setChecked(TextUtils.isEmpty(mInitialName));
+		mPresetSpinner = (Spinner) view.findViewById(R.id.preset_spinner);
+		mUseRdsName = (CheckBox) view.findViewById(R.id.use_rds_name);
+		mNameField = (EditText) view.findViewById(R.id.channel_name);
 
-        setButton(DialogInterface.BUTTON_POSITIVE, context.getString(android.R.string.ok), this);
-        setButton(DialogInterface.BUTTON_NEGATIVE, context.getString(android.R.string.cancel), this);
+		mNameField.setText(mInitialName);
+		mUseRdsName.setOnCheckedChangeListener(this);
+		mUseRdsName.setChecked(TextUtils.isEmpty(mInitialName));
 
-        initPresetSpinner();
+		setButton(DialogInterface.BUTTON_POSITIVE,
+				context.getString(android.R.string.ok), this);
+		setButton(DialogInterface.BUTTON_NEGATIVE,
+				context.getString(android.R.string.cancel), this);
 
-        super.onCreate(savedInstanceState);
-    }
+		initPresetSpinner();
 
-    @Override
-    public void onClick(DialogInterface dialog, int which) {
-        if (which == DialogInterface.BUTTON_POSITIVE) {
-            ContentValues cv = new ContentValues();
-            int id = mPresetSpinner.getSelectedItemPosition();
-            final Uri uri = Uri.withAppendedPath(Channels.CONTENT_URI, String.valueOf(id));
+		super.onCreate(savedInstanceState);
+	}
 
-            cv.put(Channels.FREQUENCY, mFrequency);
-            cv.put(Channels.NAME, mUseRdsName.isChecked() ? "" : mNameField.getText().toString());
+	@Override
+	public void onClick(DialogInterface dialog, int which) {
+		if (which == DialogInterface.BUTTON_POSITIVE) {
+			ContentValues cv = new ContentValues();
+			int id = mPresetSpinner.getSelectedItemPosition();
+			final Uri uri = Uri.withAppendedPath(Channels.CONTENT_URI,
+					String.valueOf(id));
 
-            getContext().getContentResolver().update(uri, cv, null, null);
+			cv.put(Channels.FREQUENCY, mFrequency);
+			cv.put(Channels.NAME, mUseRdsName.isChecked() ? "" : mNameField
+					.getText().toString());
 
-            if (mListener != null) {
-                mListener.onPresetSaved(id);
-            }
-        } else {
-            if (mListener != null) {
-                mListener.onSaveCanceled();
-            }
-        }
-        dismiss();
-    }
+			getContext().getContentResolver().update(uri, cv, null, null);
 
-    @Override
-    public void onCheckedChanged(CompoundButton view, boolean isChecked) {
-        mNameField.setVisibility(isChecked ? View.GONE : View.VISIBLE);
-    }
+			if (mListener != null) {
+				mListener.onPresetSaved(id);
+			}
+		} else {
+			if (mListener != null) {
+				mListener.onSaveCanceled();
+			}
+		}
+		dismiss();
+	}
 
-    private void initPresetSpinner() {
-        Context context = getContext();
-        Cursor cursor = context.getContentResolver().query(Channels.CONTENT_URI, FMUtil.PROJECTION, null, null, null);
-        if (cursor != null) {
-            ArrayList<String> results = new ArrayList<String>();
-            int i = 1;
+	@Override
+	public void onCheckedChanged(CompoundButton view, boolean isChecked) {
+		mNameField.setVisibility(isChecked ? View.GONE : View.VISIBLE);
+	}
 
-            cursor.moveToFirst();
-            while (!cursor.isAfterLast()) {
-                results.add(FMUtil.getPresetUiString(context, cursor, i));
-                cursor.moveToNext();
-                i++;
-            }
-            cursor.close();
+	private void initPresetSpinner() {
+		Context context = getContext();
+		Cursor cursor = context.getContentResolver().query(
+				Channels.CONTENT_URI, FMUtil.PROJECTION, null, null, null);
+		if (cursor != null) {
+			ArrayList<String> results = new ArrayList<String>();
+			int i = 1;
 
-            ArrayAdapter adapter = new ArrayAdapter(context, android.R.layout.simple_spinner_item, results);
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+			cursor.moveToFirst();
+			while (!cursor.isAfterLast()) {
+				results.add(FMUtil.getPresetUiString(context, cursor, i));
+				cursor.moveToNext();
+				i++;
+			}
+			cursor.close();
 
-            mPresetSpinner.setAdapter(adapter);
-            mPresetSpinner.setSelection(mInitialPreset);
-        }
-    }
+			ArrayAdapter<String> adapter = new ArrayAdapter<String>(context,
+					android.R.layout.simple_spinner_item, results);
+			adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+			mPresetSpinner.setAdapter(adapter);
+			mPresetSpinner.setSelection(mInitialPreset);
+		}
+	}
 }
