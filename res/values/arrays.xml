@@ -12,16 +12,23 @@
      distributed under the License is distributed on an "AS IS" BASIS,
      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
      See the License for the specific language governing permissions and
-     limitations under the License.
+     limitations under the License.
 -->
-
 <resources>
 
-    <string-array name="seek_sensitivity_entries">
+    <string-array name="seek_sensitivity_entries" translatable="false">
+        <item>@string/seek_sensitivity_entry_verystrong</item>
+        <item>@string/seek_sensitivity_entry_strong</item>
         <item>@string/seek_sensitivity_entry_medium</item>
+        <item>@string/seek_sensitivity_entry_weak</item>
+        <item>@string/seek_sensitivity_entry_veryweak</item>
     </string-array>
     <string-array name="seek_sensitivity_values" translatable="false">
+        <item>18</item>
+        <item>15</item>
         <item>12</item>
+        <item>9</item>
+        <item>6</item>
     </string-array>
 
 </resources>
