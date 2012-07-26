@@ -64,12 +64,10 @@ public class SettingsActivity extends PreferenceActivity implements OnPreference
             }
         } else if (preference == mIgnoreNoHeadsetPref) {
             final Boolean value = (Boolean) newValue;
-
             if (value) {
                 AlertDialog dialog = new AlertDialog.Builder(this).setTitle(R.string.notice)
                         .setMessage(R.string.no_headset_ignore_message)
                         .setPositiveButton(android.R.string.ok, null).create();
-
                 dialog.show();
             }
         } else if (preference == mSeekSensitivityPref) {
