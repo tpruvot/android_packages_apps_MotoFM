@@ -1,7 +1,6 @@
 package com.motorola.fmradio;
 
 import android.app.Notification;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.BroadcastReceiver;
@@ -13,7 +12,6 @@ import android.content.ServiceConnection;
 import android.database.ContentObserver;
 import android.database.Cursor;
 import android.media.AudioManager;
-import android.net.Uri;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
@@ -22,9 +20,6 @@ import android.provider.Settings;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.Gravity;
-import android.widget.Toast;
-
 import com.motorola.android.fmradio.IFMRadioService;
 import com.motorola.android.fmradio.IFMRadioServiceCallback;
 import com.motorola.fmradio.FMDataProvider.Channels;
@@ -125,16 +120,19 @@ public class FMRadioPlayerService extends Service {
         public void onCommandComplete(int cmd, int status, String value) throws RemoteException {
             final Context context = FMRadioPlayerService.this;
 
-            Log.v(TAG, "Got radio service event: cmd " + cmd + " status " + status + " value " + value);
+            Log.v(TAG, "Got radio service event: cmd " + cmd + " status " + status + " value "
+                    + value);
 
             switch (cmd) {
                 case 0: {
-                    Message msg = Message.obtain(mHandler, MSG_TUNE_COMPLETE, status, Integer.parseInt(value), null);
+                    Message msg = Message.obtain(mHandler, MSG_TUNE_COMPLETE, status,
+                            Integer.parseInt(value), null);
                     mHandler.sendMessage(msg);
                     break;
                 }
                 case 1: {
-                    Message msg = Message.obtain(mHandler, MSG_SEEK_COMPLETE, status, Integer.parseInt(value), null);
+                    Message msg = Message.obtain(mHandler, MSG_SEEK_COMPLETE, status,
+                            Integer.parseInt(value), null);
                     mHandler.sendMessage(msg);
                     break;
                 }
@@ -155,14 +153,14 @@ public class FMRadioPlayerService extends Service {
                     }
                     break;
                 case 4: {
-                        Message msg = Message.obtain(mHandler, MSG_RDS_PS_UPDATE, value);
-                        mHandler.sendMessage(msg);
-                    }
+                    Message msg = Message.obtain(mHandler, MSG_RDS_PS_UPDATE, value);
+                    mHandler.sendMessage(msg);
+                }
                     break;
                 case 5: {
-                        Message msg = Message.obtain(mHandler, MSG_RDS_RT_UPDATE, value);
-                        mHandler.sendMessage(msg);
-                    }
+                    Message msg = Message.obtain(mHandler, MSG_RDS_RT_UPDATE, value);
+                    mHandler.sendMessage(msg);
+                }
                     break;
                 case 6:
                     if (mUSBand) {
@@ -172,10 +170,10 @@ public class FMRadioPlayerService extends Service {
                     }
                     break;
                 case 7: {
-                        int newPty = Integer.parseInt(value) + (mUSBand ? 32 : 0);
-                        Message msg = Message.obtain(mHandler, MSG_RDS_PTY_UPDATE, newPty, 0, null);
-                        mHandler.sendMessage(msg);
-                    }
+                    int newPty = Integer.parseInt(value) + (mUSBand ? 32 : 0);
+                    Message msg = Message.obtain(mHandler, MSG_RDS_PTY_UPDATE, newPty, 0, null);
+                    mHandler.sendMessage(msg);
+                }
                     break;
                 case 8:
                     break;
@@ -189,14 +187,19 @@ public class FMRadioPlayerService extends Service {
                 case 10:
                     misPowerOn = false;
                     break;
-               case 15: {
-                    Message msg = Message.obtain(mHandler, MSG_UPDATE_AUDIOMODE, Integer.parseInt(value), 0, null);
+                case 15: {
+                    Message msg = Message.obtain(mHandler, MSG_UPDATE_AUDIOMODE,
+                            Integer.parseInt(value), 0, null);
                     mHandler.sendMessage(msg);
 
-                    if (mReady || setSeekSensitivity(Preferences.getSeekSensitivityThreshold(context))) {
+                    if (mReady
+                            || setSeekSensitivity(Preferences.getSeekSensitivityThreshold(context))) {
                         break;
                     }
-                    /* otherwise fall-through intended, failure to set RSSI is non-fatal */
+                    /*
+                     * otherwise fall-through intended, failure to set RSSI is
+                     * non-fatal
+                     */
                 }
                 case 23:
                     if (!mReady && !enableRds()) {
@@ -219,12 +222,14 @@ public class FMRadioPlayerService extends Service {
                     }
                     break;
                 case 24: {
-                    Message msg = Message.obtain(mHandler, MSG_UPDATE_AUDIOMODE, Integer.parseInt(value), 0, null);
+                    Message msg = Message.obtain(mHandler, MSG_UPDATE_AUDIOMODE,
+                            Integer.parseInt(value), 0, null);
                     mHandler.sendMessage(msg);
                     break;
                 }
                 case 25: {
-                    Message msg = Message.obtain(mHandler, MSG_SCAN_UPDATE, Integer.parseInt(value), 0, null);
+                    Message msg = Message.obtain(mHandler, MSG_SCAN_UPDATE,
+                            Integer.parseInt(value), 0, null);
                     mHandler.sendMessage(msg);
                     break;
                 }
@@ -246,7 +251,7 @@ public class FMRadioPlayerService extends Service {
                         }
                     }
                     break;
-             }
+            }
         }
     };
 
@@ -290,7 +295,8 @@ public class FMRadioPlayerService extends Service {
                 return false;
             }
 
-            Intent headsetIntent = registerReceiver(null, new IntentFilter(Intent.ACTION_HEADSET_PLUG));
+            Intent headsetIntent = registerReceiver(null, new IntentFilter(
+                    Intent.ACTION_HEADSET_PLUG));
             int headsetState = headsetIntent != null ? headsetIntent.getIntExtra("state", 0) : -1;
 
             if (!handleHeadsetChange(headsetState)) {
@@ -298,7 +304,8 @@ public class FMRadioPlayerService extends Service {
             }
 
             if (!mBound) {
-                mBound = bindService(new Intent("com.motorola.android.fmradio.FMRADIO_SERVICE"), mConnection, 1);
+                mBound = bindService(new Intent("com.motorola.android.fmradio.FMRADIO_SERVICE"),
+                        mConnection, 1);
                 if (!mBound) {
                     Log.w(TAG, "Powering on FM radio failed");
                     mHandler.sendEmptyMessage(MSG_SHUTDOWN);
@@ -440,7 +447,8 @@ public class FMRadioPlayerService extends Service {
                 case MSG_SEEK_COMPLETE:
                     int preFreq = mCurFreq;
                     mCurFreq = msg.arg2;
-                    Log.v(TAG, "Seek completed, success " + (msg.arg1 != 0) + " frequency " + mCurFreq);
+                    Log.v(TAG, "Seek completed, success " + (msg.arg1 != 0) + " frequency "
+                            + mCurFreq);
                     resetRDSData();
                     notifySeekResult(true);
                     if (preFreq != mCurFreq) {
@@ -480,8 +488,8 @@ public class FMRadioPlayerService extends Service {
                     break;
                 case MSG_RESTORE_AUDIO_AFTER_CALL:
                     setFMMuteState(false);
-                    audioPrepare(mAudioRouting == FM_ROUTING_HEADSET
-                            ? FM_ROUTING_SPEAKER : FM_ROUTING_HEADSET);
+                    audioPrepare(mAudioRouting == FM_ROUTING_HEADSET ? FM_ROUTING_SPEAKER
+                            : FM_ROUTING_HEADSET);
                     audioPrepare(mAudioRouting);
                     setFMVolume(Preferences.getVolume(FMRadioPlayerService.this));
                     break;
@@ -504,11 +512,11 @@ public class FMRadioPlayerService extends Service {
     };
 
     private void audioPrepare(int routing) {
-        final String route = routing == FM_ROUTING_SPEAKER ?
-                ROUTING_VALUE_SPEAKER : ROUTING_VALUE_HEADSET;
+        final String route = routing == FM_ROUTING_SPEAKER ? ROUTING_VALUE_SPEAKER
+                : ROUTING_VALUE_HEADSET;
 
         Log.d(TAG, "Setting FM audio routing to " + route);
-        am.setParameters(ROUTING_KEY + "="  + route);
+        am.setParameters(ROUTING_KEY + "=" + route);
     }
 
     private final boolean isAirplaneModeOn() {
@@ -631,11 +639,14 @@ public class FMRadioPlayerService extends Service {
         Intent launchIntent = new Intent();
         launchIntent.setAction(Intent.ACTION_MAIN);
         launchIntent.addCategory(Intent.CATEGORY_LAUNCHER);
-        launchIntent.setComponent(new ComponentName("com.motorola.fmradio", "com.motorola.fmradio.FMRadioMain"));
-        launchIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+        launchIntent.setComponent(new ComponentName("com.motorola.fmradio",
+                "com.motorola.fmradio.FMRadioMain"));
+        launchIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
 
         mActivityIntent = PendingIntent.getActivity(this, 0, launchIntent, 0);
-        mNotification = new Notification(R.drawable.fm_statusbar_icon, null, System.currentTimeMillis());
+        mNotification = new Notification(R.drawable.fm_statusbar_icon, null,
+                System.currentTimeMillis());
         mNotification.flags |= Notification.FLAG_ONGOING_EVENT;
     }
 
@@ -713,7 +724,10 @@ public class FMRadioPlayerService extends Service {
 
         updateFmStateBroadcast(true);
 
-        /* fake a music state change to make the FM state appear on the lockscreen */
+        /*
+         * fake a music state change to make the FM state appear on the
+         * lockscreen
+         */
         StringBuilder sb = new StringBuilder();
         if (stationName != null) {
             sb.append(stationName);
@@ -747,7 +761,8 @@ public class FMRadioPlayerService extends Service {
     }
 
     private boolean isHeadsetConnected() {
-        return mHeadsetState == STEREO_HEADSET || mHeadsetState == STEREO_HEADSET2 || mHeadsetState == OMTP_HEADSET;
+        return mHeadsetState == STEREO_HEADSET || mHeadsetState == STEREO_HEADSET2
+                || mHeadsetState == OMTP_HEADSET;
     }
 
     private boolean handleHeadsetChange(int state) {
@@ -762,7 +777,8 @@ public class FMRadioPlayerService extends Service {
                 sendBroadcast(i);
             }
         } else if (Preferences.isHeadsetRequired(this)) {
-            Message msg = Message.obtain(mHandler, MSG_SHOW_NOTICE, R.string.fmradio_no_headset, 0, null);
+            Message msg = Message.obtain(mHandler, MSG_SHOW_NOTICE, R.string.fmradio_no_headset, 0,
+                    null);
             mHandler.sendMessage(msg);
             mHandler.sendEmptyMessage(MSG_SHUTDOWN);
             return false;

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="app_name">Radio FM</string>
     <string name="exit">Esci</string>
     <string name="select_ch">Seleziona stazione</string>
@@ -92,4 +93,5 @@
     <string name="fm_pty_list_61">Meteo</string>
     <string name="fm_pty_list_62">Test emergenza</string>
     <string name="fm_pty_list_63">Emergenza</string>
+
 </resources>

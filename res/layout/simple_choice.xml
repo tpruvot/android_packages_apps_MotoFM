@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<CheckedTextView
-        android:id="@+id/text1"
-        android:textAppearance="?android:textAppearanceMedium"
-        android:textColor="#ffffffff"
-        android:gravity="center_vertical"
-        android:paddingLeft="2dp"
-        android:paddingRight="2dp"
-        android:layout_width="fill_parent"
-        android:layout_height="?android:listPreferredItemHeight"
-        android:checkMark="?android:listChoiceIndicatorMultiple"
-        xmlns:android="http://schemas.android.com/apk/res/android" />
+<CheckedTextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/text1"
+    android:layout_width="fill_parent"
+    android:layout_height="?android:listPreferredItemHeight"
+    android:checkMark="?android:listChoiceIndicatorMultiple"
+    android:gravity="center_vertical"
+    android:paddingLeft="2dp"
+    android:paddingRight="2dp"
+    android:textAppearance="?android:textAppearanceMedium" />

@@ -9,7 +9,6 @@ import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.PreferenceActivity;
-import android.preference.PreferenceCategory;
 import android.preference.PreferenceScreen;
 
 public class SettingsActivity extends PreferenceActivity implements OnPreferenceChangeListener {
@@ -20,12 +19,15 @@ public class SettingsActivity extends PreferenceActivity implements OnPreference
     private CheckBoxPreference mIgnoreNoHeadsetPref;
     private ListPreference mSeekSensitivityPref;
 
-    private static final String PROP_CHARGE_LED_MODE = "persist.sys.charge_led";
-    private static final String PROP_TOUCH_POINTS = "persist.sys.multitouch";
-    private static final String PROP_KINETO_ENABLED = "persist.sys.kineto.enable";
-    private static final String FILE_TOUCH_POINTS = "/proc/multitouch/num";
-    private static final String FILE_BOOTMENU_PIN = "/data/secure/bootmenu_pin";
-    private static final String KINETO_PACKAGE = "com.android.kineto";
+    // private static final String PROP_CHARGE_LED_MODE =
+    // "persist.sys.charge_led";
+    // private static final String PROP_TOUCH_POINTS = "persist.sys.multitouch";
+    // private static final String PROP_KINETO_ENABLED =
+    // "persist.sys.kineto.enable";
+    // private static final String FILE_TOUCH_POINTS = "/proc/multitouch/num";
+    // private static final String FILE_BOOTMENU_PIN =
+    // "/data/secure/bootmenu_pin";
+    // private static final String KINETO_PACKAGE = "com.android.kineto";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -48,17 +50,14 @@ public class SettingsActivity extends PreferenceActivity implements OnPreference
             final Boolean value = (Boolean) newValue;
 
             if (value) {
-                AlertDialog dialog = new AlertDialog.Builder(this)
-                        .setTitle(R.string.warning)
+                AlertDialog dialog = new AlertDialog.Builder(this).setTitle(R.string.warning)
                         .setMessage(R.string.airplane_ignore_warning_message)
                         .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 mIgnoreAirplanePref.setChecked(true);
                             }
-                        })
-                        .setNegativeButton(R.string.no, null)
-                        .create();
+                        }).setNegativeButton(R.string.no, null).create();
 
                 dialog.show();
                 return false;
@@ -67,11 +66,9 @@ public class SettingsActivity extends PreferenceActivity implements OnPreference
             final Boolean value = (Boolean) newValue;
 
             if (value) {
-                AlertDialog dialog = new AlertDialog.Builder(this)
-                        .setTitle(R.string.notice)
+                AlertDialog dialog = new AlertDialog.Builder(this).setTitle(R.string.notice)
                         .setMessage(R.string.no_headset_ignore_message)
-                        .setPositiveButton(android.R.string.ok, null)
-                        .create();
+                        .setPositiveButton(android.R.string.ok, null).create();
 
                 dialog.show();
             }
