@@ -556,8 +556,8 @@ public class FMRadioMain extends Activity implements SeekBar.OnSeekBarChangeList
                             @Override
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 startScanning();
-                            }
-                        })
+                                }
+                            })
                         .setNegativeButton(android.R.string.cancel, null)
                         .create();
             case DIALOG_IF_SCAN_NEXT:
@@ -569,8 +569,9 @@ public class FMRadioMain extends Activity implements SeekBar.OnSeekBarChangeList
                             public void onClick(DialogInterface dialog, int whichButton) {
                                   clearDB();
                                   startScanning();
-                            }
-                        }).setNegativeButton(android.R.string.cancel, null)
+                                }
+                            })
+                        .setNegativeButton(android.R.string.cancel, null)
                         .create();
         }
 

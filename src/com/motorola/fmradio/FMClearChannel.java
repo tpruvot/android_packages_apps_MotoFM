@@ -21,7 +21,9 @@ import com.motorola.fmradio.FMDataProvider.Channels;
 import java.util.ArrayList;
 
 public class FMClearChannel extends ListActivity implements View.OnClickListener {
-    public static final String TAG = "FMClearChannel";
+
+    @SuppressWarnings("unused")
+    private static final String TAG = "FMClearChannel";
 
     public static final String EXTRA_CLEARED_ALL = "cleared_all";
 

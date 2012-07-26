@@ -20,9 +20,9 @@ public class FMUtil {
     // public static final int STREAM_FM = AudioManager.STREAM_FM;
     public static final int STREAM_FM = AudioManager.STREAM_MUSIC;
 
-    public static final String[] PROJECTION = new String[] { FMDataProvider.Channels.ID,
-            FMDataProvider.Channels.FREQUENCY, FMDataProvider.Channels.NAME,
-            FMDataProvider.Channels.RDS_NAME };
+    public static final String[] PROJECTION = new String[] {
+        FMDataProvider.Channels.ID, FMDataProvider.Channels.FREQUENCY,
+        FMDataProvider.Channels.NAME, FMDataProvider.Channels.RDS_NAME };
     public static final int CHANNEL_COLUMN_ID = 0;
     public static final int CHANNEL_COLUMN_FREQ = 1;
     public static final int CHANNEL_COLUMN_NAME = 2;
