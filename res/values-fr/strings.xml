@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="app_name">Radio FM</string>
     <string name="exit">Quitter</string>
     <string name="select_ch">Sélectionner Station préréglée</string>
@@ -92,7 +93,6 @@
     <string name="fm_pty_list_61">Météo</string>
     <string name="fm_pty_list_62">"Test d'urgence"</string>
     <string name="fm_pty_list_63">Urgence</string>
-
     <string name="settings_title">Préférences</string>
     <string name="general_settings_title">Général</string>
     <string name="ignore_airplane_title">Ignorer le mode Avion</string>
@@ -107,7 +107,6 @@
     <string name="seek_sensitivity_entry_medium">Moyen</string>
     <string name="seek_sensitivity_entry_weak">Bas</string>
     <string name="seek_sensitivity_entry_veryweak">Très bas</string>
-
     <string name="notice">Note</string>
     <string name="warning">Attention</string>
     <string name="no_headset_ignore_message">Comme le cable des écouteurs est utilisé comme antenne, la qualité de réception va être grandement dégradée si ceux-ci ne sont pas branchés.</string>

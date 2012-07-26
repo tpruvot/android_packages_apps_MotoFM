@@ -1,0 +1,49 @@
+From 16fddab32946ba578f8463c83915ef74684345d8 Mon Sep 17 00:00:00 2001
+From: Tanguy Pruvot <tanguy.pruvot@gmail.com>
+Date: Sat, 21 Jul 2012 17:40:35 +0200
+Subject: [PATCH] Add the FM stream constant
+
+Change-Id: Iabbab705c987e68251400d223f6dfd2160f5c670
+---
+ media/java/android/media/AudioManager.java |    3 +++
+ media/java/android/media/AudioSystem.java  |    4 +++-
+ 2 files changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/media/java/android/media/AudioManager.java b/media/java/android/media/AudioManager.java
+index dcda216..92bc442 100644
+--- a/media/java/android/media/AudioManager.java
++++ b/media/java/android/media/AudioManager.java
+@@ -216,6 +216,9 @@ public class AudioManager {
+     public static final int STREAM_DTMF = AudioSystem.STREAM_DTMF;
+     /** @hide The audio stream for text to speech (TTS) */
+     public static final int STREAM_TTS = AudioSystem.STREAM_TTS;
++    /** @hide The audio stream for FM Radio */
++    public static final int STREAM_FM = AudioSystem.STREAM_FM;
++
+     /** Number of audio streams */
+     /**
+      * @deprecated Use AudioSystem.getNumStreamTypes() instead
+diff --git a/media/java/android/media/AudioSystem.java b/media/java/android/media/AudioSystem.java
+index 1ca0df4..44f382ca 100644
+--- a/media/java/android/media/AudioSystem.java
++++ b/media/java/android/media/AudioSystem.java
+@@ -52,13 +52,15 @@ public class AudioSystem
+     public static final int STREAM_DTMF = 8;
+     /* @hide The audio stream for text to speech (TTS) */
+     public static final int STREAM_TTS = 9;
++    /* @hide The audio stream for FM Radio */
++    public static final int STREAM_FM = 10;
+     /**
+      * @deprecated Use {@link #numStreamTypes() instead}
+      */
+     public static final int NUM_STREAMS = 5;
+ 
+     // Expose only the getter method publicly so we can change it in the future
+-    private static final int NUM_STREAM_TYPES = 10;
++    private static final int NUM_STREAM_TYPES = 11;
+     public static final int getNumStreamTypes() { return NUM_STREAM_TYPES; }
+ 
+     /*
+-- 
+1.7.10
+

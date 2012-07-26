@@ -9,7 +9,6 @@ import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.PreferenceActivity;
-import android.preference.PreferenceCategory;
 import android.preference.PreferenceScreen;
 
 public class SettingsActivity extends PreferenceActivity implements OnPreferenceChangeListener {
@@ -19,6 +18,7 @@ public class SettingsActivity extends PreferenceActivity implements OnPreference
     private CheckBoxPreference mIgnoreAirplanePref;
     private CheckBoxPreference mIgnoreNoHeadsetPref;
     private ListPreference mSeekSensitivityPref;
+    private CheckBoxPreference mActionBarPref;
 
     private static final String PROP_CHARGE_LED_MODE = "persist.sys.charge_led";
     private static final String PROP_TOUCH_POINTS = "persist.sys.multitouch";
@@ -40,6 +40,8 @@ public class SettingsActivity extends PreferenceActivity implements OnPreference
         mIgnoreNoHeadsetPref.setOnPreferenceChangeListener(this);
         mSeekSensitivityPref = (ListPreference) prefs.findPreference("seek_sensitivity");
         mSeekSensitivityPref.setOnPreferenceChangeListener(this);
+        mActionBarPref = (CheckBoxPreference) prefs.findPreference("hide_actionbar");
+        mActionBarPref.setOnPreferenceChangeListener(this);
     }
 
     @Override
@@ -48,7 +50,7 @@ public class SettingsActivity extends PreferenceActivity implements OnPreference
             final Boolean value = (Boolean) newValue;
 
             if (value) {
-                AlertDialog dialog = new AlertDialog.Builder(this)
+                new AlertDialog.Builder(this)
                         .setTitle(R.string.warning)
                         .setMessage(R.string.airplane_ignore_warning_message)
                         .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
@@ -58,28 +60,27 @@ public class SettingsActivity extends PreferenceActivity implements OnPreference
                             }
                         })
                         .setNegativeButton(R.string.no, null)
-                        .create();
-
-                dialog.show();
+                        .create()
+                        .show();
                 return false;
             }
         } else if (preference == mIgnoreNoHeadsetPref) {
             final Boolean value = (Boolean) newValue;
-
             if (value) {
-                AlertDialog dialog = new AlertDialog.Builder(this)
+                new AlertDialog.Builder(this)
                         .setTitle(R.string.notice)
                         .setMessage(R.string.no_headset_ignore_message)
                         .setPositiveButton(android.R.string.ok, null)
-                        .create();
-
-                dialog.show();
+                        .create()
+                        .show();
             }
         } else if (preference == mSeekSensitivityPref) {
             final int value = Integer.parseInt((String) newValue);
             Intent i = new Intent(ACTION_RSSI_UPDATED);
             i.putExtra(EXTRA_RSSI, value);
             sendBroadcast(i);
+        } else if (preference == mActionBarPref) {
+            // TODO call configuration change
         }
 
         return true;

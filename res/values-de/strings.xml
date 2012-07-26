@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="app_name">FM-Radio</string>
     <string name="exit">Beenden</string>
     <string name="select_ch">Voreinstellung auswählen</string>
@@ -101,7 +102,6 @@
     <string name="fm_pty_list_61">Wetter</string>
     <string name="fm_pty_list_62">Notfall-Test</string>
     <string name="fm_pty_list_63">Notfall</string>
-
     <string name="settings_title">Einstellungen</string>
     <string name="general_settings_title">Allgemein</string>
     <string name="ignore_airplane_title">Flugmodus ignorieren</string>
@@ -116,11 +116,11 @@
     <string name="seek_sensitivity_entry_medium">Mittel</string>
     <string name="seek_sensitivity_entry_weak">Schwach</string>
     <string name="seek_sensitivity_entry_veryweak">Sehr schwach</string>
-
     <string name="notice">Hinweis</string>
     <string name="warning">Warnung</string>
     <string name="no_headset_ignore_message">Da das Headset als FM-Antenne benutzt wird, wird die Empfangsqualität stark verschlechtert sein, wenn das FM-Radio ohne Headset benutzt wird.</string>
     <string name="airplane_ignore_warning_message">Das FM-Radio benutzt intern die Bluetooth-Hardware des Telefons, deren Benutzung unter Umständen, z.B. im Flugzeug, illegal sein kann.\nMöchten Sie die Benutzung des FM-Radios im Flugmodus wirklich erlauben?</string>
     <string name="yes">Ja</string>
     <string name="no">Nein</string>
+
 </resources>

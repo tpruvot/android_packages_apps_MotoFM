@@ -20,8 +20,8 @@ import com.motorola.fmradio.FMDataProvider.Channels;
 
 import java.util.ArrayList;
 
-public class SaveChannelDialog extends AlertDialog
-        implements DialogInterface.OnClickListener, CheckBox.OnCheckedChangeListener {
+public class SaveChannelDialog extends AlertDialog implements DialogInterface.OnClickListener,
+        CheckBox.OnCheckedChangeListener {
     private int mFrequency;
     private int mInitialPreset;
     private String mInitialName;
@@ -33,11 +33,12 @@ public class SaveChannelDialog extends AlertDialog
 
     public interface OnSaveListener {
         void onPresetSaved(int preset);
+
         void onSaveCanceled();
     }
 
-    public SaveChannelDialog(Context context, int frequency,
-            int initialPreset, String initialName, OnSaveListener listener) {
+    public SaveChannelDialog(Context context, int frequency, int initialPreset, String initialName,
+            OnSaveListener listener) {
         super(context);
 
         mFrequency = frequency;
@@ -105,7 +106,8 @@ public class SaveChannelDialog extends AlertDialog
 
     private void initPresetSpinner() {
         Context context = getContext();
-        Cursor cursor = context.getContentResolver().query(Channels.CONTENT_URI, FMUtil.PROJECTION, null, null, null);
+        Cursor cursor = context.getContentResolver().query(Channels.CONTENT_URI, FMUtil.PROJECTION,
+                null, null, null);
         if (cursor != null) {
             ArrayList<String> results = new ArrayList<String>();
             int i = 1;
@@ -118,7 +120,8 @@ public class SaveChannelDialog extends AlertDialog
             }
             cursor.close();
 
-            ArrayAdapter adapter = new ArrayAdapter(context, android.R.layout.simple_spinner_item, results);
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(context,
+                    android.R.layout.simple_spinner_item, results);
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
             mPresetSpinner.setAdapter(adapter);

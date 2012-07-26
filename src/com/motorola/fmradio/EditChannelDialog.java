@@ -16,8 +16,8 @@ import android.widget.TextView;
 
 import com.motorola.fmradio.FMDataProvider.Channels;
 
-public class EditChannelDialog extends AlertDialog
-        implements DialogInterface.OnClickListener, CheckBox.OnCheckedChangeListener {
+public class EditChannelDialog extends AlertDialog implements DialogInterface.OnClickListener,
+        CheckBox.OnCheckedChangeListener {
     private Uri mUri;
     private int mPreset;
 
@@ -75,7 +75,8 @@ public class EditChannelDialog extends AlertDialog
         mUri = Uri.withAppendedPath(Channels.CONTENT_URI, String.valueOf(mPreset));
 
         final Context context = getContext();
-        Cursor cursor = context.getContentResolver().query(mUri, FMUtil.PROJECTION, null, null, null);
+        Cursor cursor = context.getContentResolver().query(mUri, FMUtil.PROJECTION, null, null,
+                null);
 
         if (cursor != null) {
             cursor.moveToFirst();

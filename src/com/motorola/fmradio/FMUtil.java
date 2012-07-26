@@ -1,13 +1,11 @@
 package com.motorola.fmradio;
 
-import android.content.ContentResolver;
+import android.media.AudioManager;
+
 import android.content.Context;
 import android.content.res.Resources;
 import android.database.Cursor;
-import android.media.AudioManager;
-import android.net.Uri;
 import android.text.TextUtils;
-import android.view.Gravity;
 import android.widget.Toast;
 
 import java.text.DecimalFormat;
@@ -19,16 +17,16 @@ public class FMUtil {
     public static final int MAX_FREQUENCY = 108000;
     public static final int STEP = 100;
 
-    public static final int STREAM_FM = 10; //AudioManager.STREAM_FM;
+    // public static final int STREAM_FM = AudioManager.STREAM_FM;
+    public static final int STREAM_FM = AudioManager.STREAM_MUSIC;
 
-    public static final String[] PROJECTION = new String[] {
-        FMDataProvider.Channels.ID, FMDataProvider.Channels.FREQUENCY,
-        FMDataProvider.Channels.NAME, FMDataProvider.Channels.RDS_NAME
-    };
-    public static  final int CHANNEL_COLUMN_ID = 0;
-    public static  final int CHANNEL_COLUMN_FREQ = 1;
-    public static  final int CHANNEL_COLUMN_NAME = 2;
-    public static  final int CHANNEL_COLUMN_RDSNAME = 3;
+    public static final String[] PROJECTION = new String[] { FMDataProvider.Channels.ID,
+            FMDataProvider.Channels.FREQUENCY, FMDataProvider.Channels.NAME,
+            FMDataProvider.Channels.RDS_NAME };
+    public static final int CHANNEL_COLUMN_ID = 0;
+    public static final int CHANNEL_COLUMN_FREQ = 1;
+    public static final int CHANNEL_COLUMN_NAME = 2;
+    public static final int CHANNEL_COLUMN_RDSNAME = 3;
 
     public static final int FREQ_RATE = 1000;
 
@@ -52,7 +50,7 @@ public class FMUtil {
             return rdsName;
         }
 
-        return formatFrequency(context, frequency);
+        return context.getString(R.string.untitled);
     }
 
     public static String getPresetUiString(Context context, Cursor cursor, int index) {
@@ -84,9 +82,7 @@ public class FMUtil {
     }
 
     public static void showNoticeDialog(Context context, int noticeId) {
-        Toast ts = Toast.makeText(context, context.getString(noticeId), Toast.LENGTH_LONG);
-        ts.setGravity(Gravity.CENTER, 0, 0);
-        ts.show();
+        Toast.makeText(context, context.getString(noticeId), Toast.LENGTH_LONG).show();
     }
 
     public static String formatFrequency(Context context, int frequency) {
