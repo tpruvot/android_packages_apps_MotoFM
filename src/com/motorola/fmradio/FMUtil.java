@@ -86,7 +86,7 @@ public class FMUtil {
     }
 
     public static String formatFrequency(Context context, int frequency) {
-        float freq = frequency / 1000.0F;
+        float freq = (float) frequency / 1000.0F;
         DecimalFormat formatter = new DecimalFormat(".0");
         return formatter.format(freq) + context.getString(R.string.mhz);
     }

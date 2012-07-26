@@ -192,8 +192,7 @@ public class FMRadioPlayerService extends Service {
                             Integer.parseInt(value), 0, null);
                     mHandler.sendMessage(msg);
 
-                    if (mReady
-                            || setSeekSensitivity(Preferences.getSeekSensitivityThreshold(context))) {
+                    if (mReady || setSeekSensitivity(Preferences.getSeekSensitivityThreshold(context))) {
                         break;
                     }
                     /*

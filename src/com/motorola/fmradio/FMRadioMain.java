@@ -98,7 +98,6 @@ public class FMRadioMain extends Activity implements SeekBar.OnSeekBarChangeList
 
     private int RANGE = 21000;
     private int RANGE_START = 87000;
-    // private int RATE = 1000;
 
     private static final String RDS_TEXT_SEPARATOR = "..:";
 
@@ -106,44 +105,48 @@ public class FMRadioMain extends Activity implements SeekBar.OnSeekBarChangeList
     private static final int LONG_PRESS_TUNE_TIMEOUT = 50;
     private static final long SCAN_STOP_DELAY = 500;
 
-    private static final int[] NUMBER_IMAGES = new int[] { R.drawable.fm_number_0,
-            R.drawable.fm_number_1, R.drawable.fm_number_2, R.drawable.fm_number_3,
-            R.drawable.fm_number_4, R.drawable.fm_number_5, R.drawable.fm_number_6,
-            R.drawable.fm_number_7, R.drawable.fm_number_8, R.drawable.fm_number_9 };
+    private static final int[] NUMBER_IMAGES = new int[] {
+        R.drawable.fm_number_0, R.drawable.fm_number_1, R.drawable.fm_number_2,
+        R.drawable.fm_number_3, R.drawable.fm_number_4, R.drawable.fm_number_5,
+        R.drawable.fm_number_6, R.drawable.fm_number_7, R.drawable.fm_number_8,
+        R.drawable.fm_number_9
+    };
     private static final int[] NUMBER_IMAGES_UNSELECTED = new int[] {
-            R.drawable.fm_number_unselect_0, R.drawable.fm_number_unselect_1,
-            R.drawable.fm_number_unselect_2, R.drawable.fm_number_unselect_3,
-            R.drawable.fm_number_unselect_4, R.drawable.fm_number_unselect_5,
-            R.drawable.fm_number_unselect_6, R.drawable.fm_number_unselect_7,
-            R.drawable.fm_number_unselect_8, R.drawable.fm_number_unselect_9 };
-    private static final int[] NUMBER_IMAGES_PRESET = new int[] { R.drawable.fm_playing_list_0,
-            R.drawable.fm_playing_list_1, R.drawable.fm_playing_list_2,
-            R.drawable.fm_playing_list_3, R.drawable.fm_playing_list_4,
-            R.drawable.fm_playing_list_5, R.drawable.fm_playing_list_6,
-            R.drawable.fm_playing_list_7, R.drawable.fm_playing_list_8,
-            R.drawable.fm_playing_list_9 };
-    private static final int[] PTY_STRINGS = new int[] { 0, R.string.fm_pty_list_01,
-            R.string.fm_pty_list_02, R.string.fm_pty_list_03, R.string.fm_pty_list_04,
-            R.string.fm_pty_list_05, R.string.fm_pty_list_06, R.string.fm_pty_list_07,
-            R.string.fm_pty_list_08, R.string.fm_pty_list_09, R.string.fm_pty_list_10,
-            R.string.fm_pty_list_11, R.string.fm_pty_list_12, R.string.fm_pty_list_13,
-            R.string.fm_pty_list_14, R.string.fm_pty_list_15, R.string.fm_pty_list_16,
-            R.string.fm_pty_list_17, R.string.fm_pty_list_18, R.string.fm_pty_list_19,
-            R.string.fm_pty_list_20, R.string.fm_pty_list_21, R.string.fm_pty_list_22,
-            R.string.fm_pty_list_23, R.string.fm_pty_list_24, R.string.fm_pty_list_25,
-            R.string.fm_pty_list_26, R.string.fm_pty_list_27, R.string.fm_pty_list_28,
-            R.string.fm_pty_list_29, R.string.fm_pty_list_30, R.string.fm_pty_list_31, 0,
-            R.string.fm_pty_list_33, R.string.fm_pty_list_34, R.string.fm_pty_list_35,
-            R.string.fm_pty_list_36, R.string.fm_pty_list_37, R.string.fm_pty_list_38,
-            R.string.fm_pty_list_39, R.string.fm_pty_list_40, R.string.fm_pty_list_41,
-            R.string.fm_pty_list_42, R.string.fm_pty_list_43, R.string.fm_pty_list_44,
-            R.string.fm_pty_list_45, R.string.fm_pty_list_46, R.string.fm_pty_list_47,
-            R.string.fm_pty_list_48, R.string.fm_pty_list_49, R.string.fm_pty_list_50,
-            R.string.fm_pty_list_51, R.string.fm_pty_list_52, R.string.fm_pty_list_53,
-            R.string.fm_pty_list_54, R.string.fm_pty_list_55, R.string.fm_pty_list_56,
-            R.string.fm_pty_list_57, R.string.fm_pty_list_58, R.string.fm_pty_list_59,
-            R.string.fm_pty_list_60, R.string.fm_pty_list_61, R.string.fm_pty_list_62,
-            R.string.fm_pty_list_63 };
+        R.drawable.fm_number_unselect_0, R.drawable.fm_number_unselect_1,
+        R.drawable.fm_number_unselect_2, R.drawable.fm_number_unselect_3,
+        R.drawable.fm_number_unselect_4, R.drawable.fm_number_unselect_5,
+        R.drawable.fm_number_unselect_6, R.drawable.fm_number_unselect_7,
+        R.drawable.fm_number_unselect_8, R.drawable.fm_number_unselect_9 };
+    private static final int[] NUMBER_IMAGES_PRESET = new int[] {
+        R.drawable.fm_playing_list_0, R.drawable.fm_playing_list_1,
+        R.drawable.fm_playing_list_2, R.drawable.fm_playing_list_3,
+        R.drawable.fm_playing_list_4, R.drawable.fm_playing_list_5,
+        R.drawable.fm_playing_list_6, R.drawable.fm_playing_list_7,
+        R.drawable.fm_playing_list_8, R.drawable.fm_playing_list_9 };
+    private static final int[] PTY_STRINGS = new int[] {
+        0,                       R.string.fm_pty_list_01, R.string.fm_pty_list_02,
+        R.string.fm_pty_list_03, R.string.fm_pty_list_04, R.string.fm_pty_list_05,
+        R.string.fm_pty_list_06, R.string.fm_pty_list_07, R.string.fm_pty_list_08,
+        R.string.fm_pty_list_09, R.string.fm_pty_list_10, R.string.fm_pty_list_11,
+        R.string.fm_pty_list_12, R.string.fm_pty_list_13, R.string.fm_pty_list_14,
+        R.string.fm_pty_list_15, R.string.fm_pty_list_16, R.string.fm_pty_list_17,
+        R.string.fm_pty_list_18, R.string.fm_pty_list_19, R.string.fm_pty_list_20,
+        R.string.fm_pty_list_21, R.string.fm_pty_list_22, R.string.fm_pty_list_23,
+        R.string.fm_pty_list_24, R.string.fm_pty_list_25, R.string.fm_pty_list_26,
+        R.string.fm_pty_list_27, R.string.fm_pty_list_28, R.string.fm_pty_list_29,
+        R.string.fm_pty_list_30, R.string.fm_pty_list_31, 0,
+        R.string.fm_pty_list_33, R.string.fm_pty_list_34, R.string.fm_pty_list_35,
+        R.string.fm_pty_list_36, R.string.fm_pty_list_37, R.string.fm_pty_list_38,
+        R.string.fm_pty_list_39, R.string.fm_pty_list_40, R.string.fm_pty_list_41,
+        R.string.fm_pty_list_42, R.string.fm_pty_list_43, R.string.fm_pty_list_44,
+        R.string.fm_pty_list_45, R.string.fm_pty_list_46, R.string.fm_pty_list_47,
+        R.string.fm_pty_list_48, R.string.fm_pty_list_49, R.string.fm_pty_list_50,
+        R.string.fm_pty_list_51, R.string.fm_pty_list_52, R.string.fm_pty_list_53,
+        R.string.fm_pty_list_54, R.string.fm_pty_list_55, R.string.fm_pty_list_56,
+        R.string.fm_pty_list_57, R.string.fm_pty_list_58, R.string.fm_pty_list_59,
+        R.string.fm_pty_list_60, R.string.fm_pty_list_61, R.string.fm_pty_list_62,
+        R.string.fm_pty_list_63
+   };
 
     private ImageButton[] mSeekButtons;
     private ImageSwitcher[] mFreqDigits;
@@ -184,7 +187,6 @@ public class FMRadioMain extends Activity implements SeekBar.OnSeekBarChangeList
 
             public ViewHolder(View view) {
                 mName = (TextView) view.findViewById(R.id.list_name);
-                // mIcon = (ImageView) view.findViewById(R.id.list_icon);
                 mFrequency = (TextView) view.findViewById(R.id.list_frequency);
                 mPeakOne = (ImageView) view.findViewById(R.id.peak_one);
                 mPeakTwo = (ImageView) view.findViewById(R.id.peak_two);
@@ -416,8 +418,8 @@ public class FMRadioMain extends Activity implements SeekBar.OnSeekBarChangeList
                 public void run() {
                     boolean valid = frequency == mCurFreq;
                     mRdsStationName = valid ? stationName : null;
-                    mRdsRadioText = valid && radioText != null ? radioText.replaceAll("\n", " ")
-                            : null;
+                    mRdsRadioText = valid && radioText != null ?
+                            radioText.replaceAll("\n", " ") : null;
                     mRdsPTYValue = valid ? pty : 0;
                     handleRdsDataChanged();
                 }
@@ -520,8 +522,7 @@ public class FMRadioMain extends Activity implements SeekBar.OnSeekBarChangeList
             case DIALOG_SCAN_PROGRESS:
                 mProgressDialog = new ProgressDialog(this);
                 mProgressDialog.setTitle(getString(R.string.fmradio_scanning_title));
-                mProgressDialog.setMessage(MessageFormat.format(getString(R.string.scan_progress),
-                        0));
+                mProgressDialog.setMessage(MessageFormat.format(getString(R.string.scan_progress), 0));
                 mProgressDialog.setIndeterminate(false);
                 mProgressDialog.setCancelable(true);
                 mProgressDialog.setButton(getString(android.R.string.cancel),
@@ -552,25 +553,26 @@ public class FMRadioMain extends Activity implements SeekBar.OnSeekBarChangeList
                 return new AlertDialog.Builder(this)
                         .setTitle(R.string.scan)
                         .setMessage(R.string.fmradio_scan_confirm_msg)
-                        .setPositiveButton(android.R.string.ok,
-                                new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int whichButton) {
-                                        startScanning();
-                                    }
-                                }).setNegativeButton(android.R.string.cancel, null).create();
+                        .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                startScanning();
+                            }
+                        })
+                        .setNegativeButton(android.R.string.cancel, null)
+                        .create();
             case DIALOG_IF_SCAN_NEXT:
                 return new AlertDialog.Builder(this)
                         .setTitle(R.string.scan)
                         .setMessage(R.string.fmradio_clear_confirm_msg)
-                        .setPositiveButton(android.R.string.ok,
-                                new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int whichButton) {
-                                        clearDB();
-                                        startScanning();
-                                    }
-                                }).setNegativeButton(android.R.string.cancel, null).create();
+                        .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                  clearDB();
+                                  startScanning();
+                            }
+                        }).setNegativeButton(android.R.string.cancel, null)
+                        .create();
         }
 
         return null;
@@ -587,22 +589,22 @@ public class FMRadioMain extends Activity implements SeekBar.OnSeekBarChangeList
         boolean canEditPreset = getSelectedPreset() >= 0;
 
         menu.clear();
-        menu.add(Menu.NONE, CLEAR_ID, Menu.FIRST + 1, R.string.clear_presets).setIcon(
-                R.drawable.ic_menu_clear_channel);
-        menu.add(Menu.NONE, PREFS_ID, Menu.FIRST + 4, R.string.settings_title).setIcon(
-                android.R.drawable.ic_menu_preferences);
+        menu.add(Menu.NONE, CLEAR_ID, Menu.FIRST + 1, R.string.clear_presets)
+            .setIcon(R.drawable.ic_menu_clear_channel);
+        menu.add(Menu.NONE, PREFS_ID, Menu.FIRST + 4, R.string.settings_title)
+            .setIcon(android.R.drawable.ic_menu_preferences);
         menu.add(Menu.NONE, EXIT_ID, Menu.FIRST + 5, R.string.exit)
-                .setIcon(R.drawable.ic_menu_exit);
+            .setIcon(R.drawable.ic_menu_exit);
         if (canEditPreset && fmRadioEnabled) {
-            menu.add(Menu.NONE, EDIT_ID, Menu.FIRST, R.string.edit_preset).setIcon(
-                    R.drawable.ic_menu_edit_preset);
+            menu.add(Menu.NONE, EDIT_ID, Menu.FIRST, R.string.edit_preset)
+                .setIcon(R.drawable.ic_menu_edit_preset);
         } else if (!canEditPreset) {
-            menu.add(Menu.NONE, SAVE_ID, Menu.FIRST, R.string.save_preset).setIcon(
-                    R.drawable.ic_menu_save_channel);
+            menu.add(Menu.NONE, SAVE_ID, Menu.FIRST, R.string.save_preset)
+                .setIcon(R.drawable.ic_menu_save_channel);
         }
         if (fmRadioEnabled) {
-            menu.add(Menu.NONE, SCAN_SAVE_ID, Menu.FIRST + 3, R.string.scan).setIcon(
-                    R.drawable.ic_menu_save_channel);
+            menu.add(Menu.NONE, SCAN_SAVE_ID, Menu.FIRST + 3, R.string.scan)
+                .setIcon(R.drawable.ic_menu_save_channel);
         }
 
         int audioRouting = 0;
@@ -892,8 +894,8 @@ public class FMRadioMain extends Activity implements SeekBar.OnSeekBarChangeList
 
         setSelectedPreset(Preferences.getLastChannel(this));
 
-        mCursor = getContentResolver().query(Channels.CONTENT_URI, FMUtil.PROJECTION, null, null,
-                null);
+        mCursor = getContentResolver()
+                .query(Channels.CONTENT_URI, FMUtil.PROJECTION, null, null, null);
         if (mCursor == null) {
             Log.e(TAG, "Could not fetch channel data");
             return;
@@ -1149,8 +1151,8 @@ public class FMRadioMain extends Activity implements SeekBar.OnSeekBarChangeList
         freq -= digit3 * 1000;
         digit4 = freq / 100;
 
-        Log.v(TAG, "FMRadio updateDisplay: currentFreq " + currentFreq + " -> digits " + digit1
-                + " " + digit2 + " " + digit3 + " " + digit4);
+        Log.v(TAG, "FMRadio updateDisplay: currentFreq " + currentFreq + " -> digits " +
+                digit1 + " " + digit2 + " " + digit3 + " " + digit4);
 
         int[] numbers = isEditEnable ? NUMBER_IMAGES : NUMBER_IMAGES_UNSELECTED;
         int dot = isEditEnable ? R.drawable.fm_number_point : R.drawable.fm_number_unselect_point;
@@ -1218,7 +1220,7 @@ public class FMRadioMain extends Activity implements SeekBar.OnSeekBarChangeList
 
     private int getSelectedPreset() {
         int checked = mChannelList.getCheckedItemPosition();
-        if (checked == AdapterView.INVALID_POSITION) {
+        if (checked == ListView.INVALID_POSITION) {
             return -1;
         }
         return (int) mChannelList.getItemIdAtPosition(checked);
