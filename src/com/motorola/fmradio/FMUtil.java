@@ -50,7 +50,7 @@ public class FMUtil {
             return rdsName;
         }
 
-        return "Untitled";
+        return context.getString(R.string.untitled);
     }
 
     public static String getPresetUiString(Context context, Cursor cursor, int index) {
