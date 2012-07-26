@@ -1,9 +1,6 @@
 package com.motorola.fmradio;
 
-import android.view.Window;
-
-import java.text.MessageFormat;
-
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -14,6 +11,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -27,6 +26,7 @@ import android.os.Message;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
 import android.os.RemoteException;
+import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -47,12 +47,12 @@ import android.widget.ResourceCursorAdapter;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.motorola.fmradio.FMDataProvider.Channels;
+import java.text.MessageFormat;
 
 public class FMRadioMain extends Activity implements SeekBar.OnSeekBarChangeListener,
         View.OnClickListener, View.OnLongClickListener, View.OnTouchListener,
-        ImageSwitcher.ViewFactory {
+        ImageSwitcher.ViewFactory, OnSharedPreferenceChangeListener  {
     private static final String TAG = "FMRadioMain";
 
     private static int LIGHT_ON_TIME = 90000;
@@ -176,6 +176,11 @@ public class FMRadioMain extends Activity implements SeekBar.OnSeekBarChangeList
     private boolean mScanning = false;
     private int mScannedStations = -1;
     private int mLongPressedButton = 0;
+    private boolean mActionBarHidden = false;
+
+    private SharedPreferences mSharedPrefs;
+
+    private ActionBar mActionBar;
 
     private class ChannelListAdapter extends ResourceCursorAdapter {
         private class ViewHolder {
@@ -432,10 +437,17 @@ public class FMRadioMain extends Activity implements SeekBar.OnSeekBarChangeList
         Log.d(TAG, "onCreate()");
         super.onCreate(savedInstanceState);
 
+        mSharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+        mSharedPrefs.registerOnSharedPreferenceChangeListener(this);
+
+        mActionBar = getActionBar();
+        mActionBarHidden = mSharedPrefs
+                .getBoolean(Preferences.KEY_HIDE_ACTIONBAR, false);
         // Hide Action bar if user prefers so.
-        if (Preferences.isActionBarHidden(this)) {
+        if (mActionBarHidden) {
+            mActionBar.hide();
         } else {
-            requestWindowFeature(Window.FEATURE_ACTION_BAR);
+            mActionBar.show();
         }
 
         setContentView(R.layout.main);
@@ -842,6 +854,20 @@ public class FMRadioMain extends Activity implements SeekBar.OnSeekBarChangeList
     public void onStopTrackingTouch(SeekBar seekBar) {
         if (mCurFreq != mPreFreq) {
             updateFrequency();
+        }
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        Log.d(TAG, key+" changed");
+        if (Preferences.KEY_HIDE_ACTIONBAR.equals(key)){
+            mActionBarHidden = sharedPreferences
+                    .getBoolean(Preferences.KEY_HIDE_ACTIONBAR, false);
+            if (mActionBarHidden) {
+                mActionBar.hide();
+            } else {
+                mActionBar.show();
+            }
         }
     }
 
