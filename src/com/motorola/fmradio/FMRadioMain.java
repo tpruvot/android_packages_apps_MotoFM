@@ -307,7 +307,12 @@ public class FMRadioMain extends Activity implements SeekBar.OnSeekBarChangeList
                             mProgressDialog = null;
                         }
                         enableUI(true);
-                        mAM.setStreamVolume(FMUtil.STREAM_FM, Preferences.getVolume(context), 0);
+                        try {
+                            mAM.setStreamVolume(FMUtil.STREAM_FM,
+                                    Preferences.getVolume(context), 0);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                         if (isDBEmpty() || !Preferences.isScanned(context)) {
                             showDialog(DIALOG_IF_SCAN_FIRST);
                         }

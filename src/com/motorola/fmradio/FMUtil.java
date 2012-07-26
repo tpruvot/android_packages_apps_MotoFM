@@ -1,10 +1,11 @@
 package com.motorola.fmradio;
 
 import android.content.ContentResolver;
+import android.media.AudioManager;
+
 import android.content.Context;
 import android.content.res.Resources;
 import android.database.Cursor;
-import android.media.AudioManager;
 import android.net.Uri;
 import android.text.TextUtils;
 import android.view.Gravity;
@@ -19,7 +20,8 @@ public class FMUtil {
     public static final int MAX_FREQUENCY = 108000;
     public static final int STEP = 100;
 
-    public static final int STREAM_FM = 10; //AudioManager.STREAM_FM;
+    // public static final int STREAM_FM = AudioManager.STREAM_FM;
+    public static final int STREAM_FM = AudioManager.STREAM_MUSIC;
 
     public static final String[] PROJECTION = new String[] {
         FMDataProvider.Channels.ID, FMDataProvider.Channels.FREQUENCY,
