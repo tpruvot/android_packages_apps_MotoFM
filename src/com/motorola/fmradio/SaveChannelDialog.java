@@ -28,6 +28,7 @@ public class SaveChannelDialog extends AlertDialog implements DialogInterface.On
     private CheckBox mUseRdsName;
     private Spinner mPresetSpinner;
     private EditText mNameField;
+    private String mRdsName;
 
     public interface OnSaveListener {
         void onPresetSaved(int preset);
@@ -66,10 +67,10 @@ public class SaveChannelDialog extends AlertDialog implements DialogInterface.On
         super.onCreate(savedInstanceState);
     }
 
-    public void initialize(int frequency, int initialPreset, String initialName) {
+    public void initialize(int frequency, int initialPreset, String initialName, String rdsName) {
         mFrequencyField.setText(FMUtil.formatFrequency(getContext(), frequency));
         mFrequency = frequency;
-
+        mRdsName = initialName;
         mNameField.setText(initialName);
         mUseRdsName.setChecked(TextUtils.isEmpty(initialName));
 
@@ -84,7 +85,7 @@ public class SaveChannelDialog extends AlertDialog implements DialogInterface.On
             final Uri uri = Uri.withAppendedPath(Channels.CONTENT_URI, String.valueOf(id));
 
             cv.put(Channels.FREQUENCY, mFrequency);
-            cv.put(Channels.NAME, mUseRdsName.isChecked() ? "" : mNameField.getText().toString());
+            cv.put(Channels.NAME, mUseRdsName.isChecked() ? mRdsName : mNameField.getText().toString());
 
             getContext().getContentResolver().update(uri, cv, null, null);
 
