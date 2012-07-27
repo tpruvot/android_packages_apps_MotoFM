@@ -119,6 +119,7 @@
     <string name="media_button_summary">Verhalten der Musiksteuerungs-Tasten (Zurück/Vorwärts) festlegen</string>
     <string name="media_button_entry_presets">Voreinstellung umschalten</string>
     <string name="media_button_entry_seek">Nächsten Sender suchen</string>
+
     <string name="notice">Hinweis</string>
     <string name="warning">Warnung</string>
     <string name="no_headset_ignore_message">Da das Headset als FM-Antenne benutzt wird, wird die Empfangsqualität stark verschlechtert sein, wenn das FM-Radio ohne Headset benutzt wird.</string>
