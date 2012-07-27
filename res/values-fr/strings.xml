@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string name="app_name">Radio FM</string>
     <string name="exit">Quitter</string>
     <string name="select_ch">Sélectionner Station préréglée</string>
@@ -100,6 +99,7 @@
     <string name="fm_pty_list_61">Météo</string>
     <string name="fm_pty_list_62">"Test d'urgence"</string>
     <string name="fm_pty_list_63">Urgence</string>
+
     <string name="settings_title">Préférences</string>
     <string name="general_settings_title">Général</string>
     <string name="ignore_airplane_title">Ignorer le mode Avion</string>

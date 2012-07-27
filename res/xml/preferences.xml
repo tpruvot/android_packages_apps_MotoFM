@@ -23,7 +23,6 @@
             android:entries="@array/seek_sensitivity_entries"
             android:entryValues="@array/seek_sensitivity_values"
             android:key="seek_sensitivity"
-            android:layout="?android:attr/preferenceLayoutChild"
             android:summary="@string/seek_sensitivity_summary"
             android:title="@string/seek_sensitivity_title" />
     </PreferenceCategory>
