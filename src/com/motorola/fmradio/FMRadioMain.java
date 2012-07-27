@@ -37,6 +37,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageSwitcher;
 import android.widget.ImageView;
@@ -183,19 +184,21 @@ public class FMRadioMain extends Activity implements SeekBar.OnSeekBarChangeList
     private ActionBar mActionBar;
 
     private class ChannelListAdapter extends ResourceCursorAdapter {
-        private class ViewHolder {
+        private class ViewHolder implements View.OnClickListener {
             private TextView mName;
             private ImageView mPeakOne;
             private ImageView mPeakTwo;
             private TextView mFrequency;
             private AnimationDrawable mPeakOneAnimation;
             private AnimationDrawable mPeakTwoAnimation;
+            private FrameLayout mQuickContext;
 
             public ViewHolder(View view) {
                 mName = (TextView) view.findViewById(R.id.list_name);
                 mFrequency = (TextView) view.findViewById(R.id.list_frequency);
                 mPeakOne = (ImageView) view.findViewById(R.id.peak_one);
                 mPeakTwo = (ImageView) view.findViewById(R.id.peak_two);
+                mQuickContext = (FrameLayout) view.findViewById(R.id.track_list_context_frame);
             }
 
             public void bind(Context context, Cursor cursor) {
@@ -204,6 +207,7 @@ public class FMRadioMain extends Activity implements SeekBar.OnSeekBarChangeList
 
                 mFrequency.setText(FMUtil.formatFrequency(mContext, frequency));
                 mName.setText(FMUtil.getPresetListString(context, cursor));
+                mQuickContext.setOnClickListener(this);
 
                 if (selected && Integer.valueOf(frequency) != 0) {
                     mPeakOne.setVisibility(View.VISIBLE);
@@ -220,6 +224,11 @@ public class FMRadioMain extends Activity implements SeekBar.OnSeekBarChangeList
                     mPeakOne.setImageResource(0);
                     mPeakTwo.setImageResource(0);
                 }
+            }
+
+            @Override
+            public void onClick(View v) {
+                v.showContextMenu();
             }
         }
 
