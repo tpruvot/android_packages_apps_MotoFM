@@ -15,7 +15,6 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.res.Configuration;
 import android.database.Cursor;
-import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
 import android.media.AudioManager;
 import android.net.Uri;
@@ -178,6 +177,7 @@ public class FMRadioMain extends Activity implements SeekBar.OnSeekBarChangeList
     private int mScannedStations = -1;
     private int mLongPressedButton = 0;
     private boolean mActionBarHidden = false;
+    private boolean useLoudSpeaker;
 
     private SharedPreferences mSharedPrefs;
 
@@ -205,7 +205,11 @@ public class FMRadioMain extends Activity implements SeekBar.OnSeekBarChangeList
                 int frequency = cursor.getInt(FMUtil.CHANNEL_COLUMN_FREQ);
                 boolean selected = cursor.getPosition() == mChannelList.getCheckedItemPosition();
 
-                mFrequency.setText(FMUtil.formatFrequency(mContext, frequency));
+                if (frequency > 0) {
+                    mFrequency.setText(FMUtil.formatFrequency(mContext, frequency));
+                } else {
+                    mFrequency.setText("");
+                }
                 mName.setText(FMUtil.getPresetListString(context, cursor));
                 mQuickContext.setOnClickListener(this);
 
@@ -689,6 +693,8 @@ public class FMRadioMain extends Activity implements SeekBar.OnSeekBarChangeList
             case BY_HEADSET_ID:
                 int routing = item.getItemId() == BY_LOUDSPEAKER_ID ? FMRadioPlayerService.FM_ROUTING_SPEAKER
                         : FMRadioPlayerService.FM_ROUTING_HEADSET;
+                mSharedPrefs.edit().putBoolean(Preferences.KEY_USE_LOUDSPEAKER,
+                        item.getItemId() == BY_LOUDSPEAKER_ID ? true : false).apply();
                 try {
                     mService.setAudioRouting(routing);
                 } catch (RemoteException e) {
@@ -885,6 +891,16 @@ public class FMRadioMain extends Activity implements SeekBar.OnSeekBarChangeList
                 mActionBar.hide();
             } else {
                 mActionBar.show();
+            }
+        } else if (Preferences.KEY_USE_LOUDSPEAKER.equals(key)) {
+            useLoudSpeaker = sharedPreferences
+                    .getBoolean(Preferences.KEY_USE_LOUDSPEAKER, false);
+            int routing = useLoudSpeaker ? FMRadioPlayerService.FM_ROUTING_SPEAKER
+                    : FMRadioPlayerService.FM_ROUTING_HEADSET;
+            try {
+                mService.setAudioRouting(routing);
+            } catch (RemoteException e) {
+                Log.d(TAG, "Failed to re-route audio");
             }
         }
     }

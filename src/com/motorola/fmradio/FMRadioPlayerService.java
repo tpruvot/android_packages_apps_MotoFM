@@ -9,18 +9,18 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.ContentObserver;
 import android.database.Cursor;
 import android.media.AudioManager;
 import android.media.AudioManager.OnAudioFocusChangeListener;
-import android.net.Uri;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.os.RemoteException;
+import android.preference.PreferenceManager;
 import android.provider.Settings;
-import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
 import com.motorola.android.fmradio.IFMRadioService;
@@ -106,6 +106,7 @@ public class FMRadioPlayerService extends Service {
 
     private BroadcastReceiver mReceiver = null;
     private ContentObserver mObserver = null;
+    private SharedPreferences mSharedPrefs;
 
     protected ServiceConnection mConnection = new ServiceConnection() {
         @Override
@@ -550,6 +551,10 @@ public class FMRadioPlayerService extends Service {
         super.onCreate();
 
         mAM = (AudioManager) getSystemService(AUDIO_SERVICE);
+
+        mSharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+        mAudioRouting = mSharedPrefs.getBoolean(Preferences.KEY_USE_LOUDSPEAKER, false) ?
+                FM_ROUTING_SPEAKER : FM_ROUTING_HEADSET;
 
         scheduleShutdown();
 
