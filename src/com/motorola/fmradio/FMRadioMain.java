@@ -807,36 +807,24 @@ public class FMRadioMain extends Activity implements SeekBar.OnSeekBarChangeList
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
+        // Ignore all except gesture start and gesture cancel.
         if (event.getAction() != MotionEvent.ACTION_UP
                 && event.getAction() != MotionEvent.ACTION_CANCEL) {
             return false;
         }
+
+        // Execute the rest only if a button was long pressed and user still
+        // kept pressing the button. Now the gesture have finished. We need to
+        // finish whatever action that was started by user and restore button
+        // states.
         if (mLongPressedButton == 0) {
             return false;
         }
-
         mLongPressedButton = 0;
 
         switch (v.getId()) {
             case R.id.btn_seekbackward:
             case R.id.btn_seekforward:
-                if (mHandler.hasMessages(MSG_CONTINUE_SEEK)) {
-                    mHandler.removeMessages(MSG_CONTINUE_SEEK);
-                } else {
-                    if (mService != null) {
-                        try {
-                            mService.stopSeek();
-                        } catch (RemoteException e) {
-                            Log.e(TAG, "Could not stop seek", e);
-                        }
-                    }
-
-                    mCurFreq = mPreFreq;
-                    updateDisplayPanel(mCurFreq, updatePresetSwitcher());
-                    enableUI(false);
-                    updateFrequency();
-                }
-                mHandler.sendEmptyMessageDelayed(MSG_STOP_SCAN_ANIMATION, SCAN_STOP_DELAY);
                 break;
             case R.id.btn_reduce:
             case R.id.btn_add:
@@ -845,8 +833,7 @@ public class FMRadioMain extends Activity implements SeekBar.OnSeekBarChangeList
                 updateFrequency();
                 break;
         }
-
-        return true;
+        return false;
     }
 
     @Override
