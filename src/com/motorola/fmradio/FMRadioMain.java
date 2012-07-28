@@ -43,6 +43,7 @@ import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.ResourceCursorAdapter;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -159,6 +160,7 @@ public class FMRadioMain extends Activity implements SeekBar.OnSeekBarChangeList
     private AnimationDrawable mScanAnimationUp;
     private AnimationDrawable mScanAnimationDown;
     private ImageView mStereoStatus;
+    private RelativeLayout mPanelLayout;
 
     private Cursor mCursor;
     private ListView mChannelList;
@@ -462,12 +464,6 @@ public class FMRadioMain extends Activity implements SeekBar.OnSeekBarChangeList
         mActionBar = getActionBar();
         mActionBarHidden = mSharedPrefs
                 .getBoolean(Preferences.KEY_HIDE_ACTIONBAR, false);
-        // Hide Action bar if user prefers so.
-        if (mActionBarHidden) {
-            mActionBar.hide();
-        } else {
-            mActionBar.show();
-        }
 
         setContentView(R.layout.main);
         setVolumeControlStream(FMUtil.STREAM_FM);
@@ -873,11 +869,7 @@ public class FMRadioMain extends Activity implements SeekBar.OnSeekBarChangeList
         if (Preferences.KEY_HIDE_ACTIONBAR.equals(key)){
             mActionBarHidden = sharedPreferences
                     .getBoolean(Preferences.KEY_HIDE_ACTIONBAR, false);
-            if (mActionBarHidden) {
-                mActionBar.hide();
-            } else {
-                mActionBar.show();
-            }
+            setupActionBar();
         } else if (Preferences.KEY_USE_LOUDSPEAKER.equals(key)) {
             useLoudSpeaker = sharedPreferences
                     .getBoolean(Preferences.KEY_USE_LOUDSPEAKER, false);
@@ -893,6 +885,8 @@ public class FMRadioMain extends Activity implements SeekBar.OnSeekBarChangeList
 
     private void initUI() {
         initImageSwitcher();
+        initPanelLayout();
+        setupActionBar();
         initSeekBar();
         initButtons();
         initListView();
@@ -909,6 +903,29 @@ public class FMRadioMain extends Activity implements SeekBar.OnSeekBarChangeList
             button.setOnClickListener(this);
             button.setOnLongClickListener(this);
             button.setOnTouchListener(this);
+        }
+    }
+
+    private void initPanelLayout() {
+        mPanelLayout = (RelativeLayout) this.findViewById(R.id.fm_panel_layout);
+    }
+
+    /**
+     * Hide Action bar if user prefers so.
+     */
+    private void setupActionBar() {
+        if (mActionBarHidden) {
+            mPanelLayout.setBackgroundDrawable(getResources()
+                    .getDrawable(R.drawable.fm_background_noactionbar));
+            if (mActionBar.isShowing()) {
+                mActionBar.hide();
+            }
+        } else {
+            mPanelLayout.setBackgroundDrawable(getResources()
+                    .getDrawable(R.drawable.fm_background));
+            if (!mActionBar.isShowing()) {
+                mActionBar.show();
+            }
         }
     }
 
