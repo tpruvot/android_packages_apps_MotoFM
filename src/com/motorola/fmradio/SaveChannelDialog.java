@@ -68,6 +68,7 @@ public class SaveChannelDialog extends AlertDialog implements DialogInterface.On
 
     public void initialize(int frequency, int initialPreset, String initialName) {
         mFrequencyField.setText(FMUtil.formatFrequency(getContext(), frequency));
+        mFrequency = frequency;
 
         mNameField.setText(initialName);
         mUseRdsName.setChecked(TextUtils.isEmpty(initialName));
