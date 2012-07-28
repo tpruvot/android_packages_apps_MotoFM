@@ -1,4 +1,6 @@
 *.zip
 *.apk
+*.txt
 bin/*
 gen/*
+.settings/*
