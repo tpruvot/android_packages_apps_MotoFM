@@ -523,7 +523,7 @@ public class FMRadioMain extends Activity implements SeekBar.OnSeekBarChangeList
             int preset = args.getInt(ARG_PRESET, 0);
             String name = args.getString(ARG_NAME);
 
-            d.initialize(frequency, preset, name, mRdsStationName);
+            d.initialize(frequency, preset, name);
         } else if (id == DIALOG_EDIT_CHANNEL) {
             EditChannelDialog d = (EditChannelDialog) dialog;
             int preset = args.getInt(ARG_PRESET, 0);
