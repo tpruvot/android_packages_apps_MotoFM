@@ -86,6 +86,8 @@ public class FMRadioPlayerService extends Service {
     private boolean mBound = false;
     /* flag indicating whether the hardware is powered */
     private boolean mPowerOn = false;
+    /* flag indicating whether we've lost audio focus */
+    private boolean mLostAudioFocus = false;
     /* flag indicating whether we're on the US band (important for handling RDS data) */
     private boolean mUSBand = false;
 
@@ -129,6 +131,7 @@ public class FMRadioPlayerService extends Service {
             }
 
             mIFMRadioService = null;
+            handlePowerOff();
             Log.v(TAG, "Disconnected from FM radio service");
         }
     };
@@ -197,7 +200,7 @@ public class FMRadioPlayerService extends Service {
                     }
                     break;
                 case 10:
-                    mPowerOn = false;
+                    handlePowerOff();
                     break;
                 case 15: {
                     Message msg = Message.obtain(mHandler, MSG_UPDATE_AUDIOMODE,
@@ -318,13 +321,11 @@ public class FMRadioPlayerService extends Service {
         @Override
         public void powerOff() {
             Log.d(TAG, "Got FM radio power off request");
-            if (mReady) {
-                mAM.setMode(AudioManager.MODE_NORMAL);
-                if (mBound) {
-                    unbindService(mConnection);
-                    mBound = false;
-                }
+            if (mBound) {
+                unbindService(mConnection);
+                mBound = false;
             }
+            handlePowerOff();
         }
 
         @Override
@@ -507,7 +508,7 @@ public class FMRadioPlayerService extends Service {
                     }
                     break;
                 case MSG_SHUTDOWN:
-                    if (!mBound && !mInUse) {
+                    if (!mPowerOn && !mInUse) {
                         Log.d(TAG, "Shutting down FM radio player service");
                         stopSelf(mServiceStartId);
                     }
@@ -522,6 +523,7 @@ public class FMRadioPlayerService extends Service {
             switch (focusChange) {
                 case AudioManager.AUDIOFOCUS_LOSS:
                     Log.v(TAG, "AudioFocus: received AUDIOFOCUS_LOSS, turning FM off");
+                    mLostAudioFocus = true;
                     if (mBound) {
                         setFMMuteState(true);
                         shutdownFM();
@@ -530,6 +532,7 @@ public class FMRadioPlayerService extends Service {
                 case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
                 case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
                     Log.v(TAG, "AudioFocus: received AUDIOFOCUS_LOSS_TRANSIENT, muting");
+                    mLostAudioFocus = true;
                     if (mReady) {
                         setFMMuteState(true);
                         updateStateIndicators();
@@ -537,6 +540,7 @@ public class FMRadioPlayerService extends Service {
                     break;
                 case AudioManager.AUDIOFOCUS_GAIN:
                     Log.v(TAG, "AudioFocus: received AUDIOFOCUS_GAIN");
+                    mLostAudioFocus = false;
                     if (mReady) {
                         mHandler.sendEmptyMessageDelayed(MSG_RESTORE_AUDIO_AFTER_FOCUS_LOSS, 1000);
                     }
@@ -596,10 +600,15 @@ public class FMRadioPlayerService extends Service {
 
     @Override
     public boolean onUnbind(Intent intent) {
-        Log.d(TAG, "onUnbind()");
+        Log.d(TAG, "onUnbind(), powerOn = " + mPowerOn);
         mInUse = false;
         mCallbacks = null;
-        stopSelf(mServiceStartId);
+
+        /* don't stop service while FM is still playing */
+        if (!mPowerOn) {
+            shutdownFM();
+        }
+
         return true;
     }
 
@@ -791,7 +800,7 @@ public class FMRadioPlayerService extends Service {
     private void setFMMuteState(boolean mute) {
         Log.v(TAG, "setFMMuteState (" + mute + ")");
         try {
-            mIFMRadioService.setMute(mute ? 1 : 0);
+            mIFMRadioService.setMute(mute || mLostAudioFocus ? 1 : 0);
             mMuted = mute;
         } catch (RemoteException e) {
             Log.e(TAG, "Setting FM mute state failed", e);
@@ -1003,6 +1012,14 @@ public class FMRadioPlayerService extends Service {
         } else {
             updateStateIndicators();
             notifyTuneResult(true);
+        }
+    }
+
+    private void handlePowerOff() {
+        Log.v(TAG, "FM radio hardware powered down");
+        mPowerOn = false;
+        if (!mInUse) {
+            shutdownFM();
         }
     }
 
