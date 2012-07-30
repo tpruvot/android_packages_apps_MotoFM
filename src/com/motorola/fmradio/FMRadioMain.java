@@ -29,6 +29,7 @@ import android.os.Message;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
 import android.os.RemoteException;
+import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -464,6 +465,7 @@ public class FMRadioMain extends ListActivity implements SeekBar.OnSeekBarChange
         super.onCreate(savedInstanceState);
 
         mActionBar = getActionBar();
+        mSharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 
         setContentView(R.layout.main);
         setVolumeControlStream(FMUtil.STREAM_FM);
