@@ -951,7 +951,7 @@ public class FMRadioMain extends ListActivity implements SeekBar.OnSeekBarChange
      * Hide Action bar if user prefers so.
      */
     private void setupActionBar() {
-        if (Preferences.hideActionBar(this)) {
+        if (Preferences.isActionBarHidden(this)) {
             mPanelLayout.setBackgroundDrawable(getResources()
                     .getDrawable(R.drawable.fm_background_noactionbar));
             if (mActionBar.isShowing()) {
