@@ -170,13 +170,13 @@ public class FMRadioPlayerService extends Service {
                 case 4: {
                     Message msg = Message.obtain(mHandler, MSG_RDS_PS_UPDATE, value);
                     mHandler.sendMessage(msg);
-                }
                     break;
+                }
                 case 5: {
                     Message msg = Message.obtain(mHandler, MSG_RDS_RT_UPDATE, value);
                     mHandler.sendMessage(msg);
-                }
                     break;
+                }
                 case 6:
                     if (mUSBand) {
                         String stationName = mIFMRadioService.getRDSStationName();
@@ -188,8 +188,8 @@ public class FMRadioPlayerService extends Service {
                     int newPty = Integer.parseInt(value) + (mUSBand ? 32 : 0);
                     Message msg = Message.obtain(mHandler, MSG_RDS_PTY_UPDATE, newPty, 0, null);
                     mHandler.sendMessage(msg);
-                }
                     break;
+                }
                 case 8:
                     break;
                 case 9:
@@ -555,6 +555,7 @@ public class FMRadioPlayerService extends Service {
         super.onCreate();
 
         mAM = (AudioManager) getSystemService(AUDIO_SERVICE);
+        mAudioRouting = Preferences.useSpeakerByDefault(this) ? FM_ROUTING_SPEAKER : FM_ROUTING_HEADSET;
 
         mSharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         mAudioRouting = mSharedPrefs.getBoolean(Preferences.KEY_USE_LOUDSPEAKER, false) ?

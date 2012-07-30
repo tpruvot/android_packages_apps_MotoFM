@@ -50,8 +50,8 @@ public class FMDataProvider extends ContentProvider {
         @Override
         public void onCreate(SQLiteDatabase db) {
             try {
-                db.execSQL("CREATE TABLE channels (" 
-                        +"_id INTEGER PRIMARY KEY,"
+                db.execSQL("CREATE TABLE channels ("
+                        + "_id INTEGER PRIMARY KEY,"
                         + "frequency INT NOT NULL DEFAULT 0,"
                         + "name TEXT,"
                         + "rds_name TEXT"

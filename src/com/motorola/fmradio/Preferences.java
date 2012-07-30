@@ -85,7 +85,11 @@ public class Preferences {
         return !TextUtils.equals(value, "seek");
     }
 
-    static private SharedPreferences getPrefs(Context context) {
+    static public boolean useSpeakerByDefault(Context context) {
+        return getPrefs(context).getBoolean(KEY_USE_LOUDSPEAKER, false);
+    }
+
+    static public SharedPreferences getPrefs(Context context) {
         return PreferenceManager.getDefaultSharedPreferences(context);
     }
 }

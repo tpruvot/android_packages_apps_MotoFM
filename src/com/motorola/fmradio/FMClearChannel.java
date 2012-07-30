@@ -21,10 +21,6 @@ import com.motorola.fmradio.FMDataProvider.Channels;
 import java.util.ArrayList;
 
 public class FMClearChannel extends ListActivity implements View.OnClickListener {
-
-    @SuppressWarnings("unused")
-    private static final String TAG = "FMClearChannel";
-
     public static final String EXTRA_CLEARED_ALL = "cleared_all";
 
     private static final int CLEAR_ID = 1;
@@ -78,8 +74,8 @@ public class FMClearChannel extends ListActivity implements View.OnClickListener
             cursor.close();
         }
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.simple_choice,
-                R.id.text1, items) {
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                R.layout.simple_choice, R.id.text1, items) {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 CheckedTextView v = (CheckedTextView) super.getView(position, convertView, parent);
@@ -96,7 +92,7 @@ public class FMClearChannel extends ListActivity implements View.OnClickListener
         menu.add(Menu.NONE, CLEAR_ID, Menu.FIRST, R.string.clear)
                 .setIcon(R.drawable.ic_menu_clear_channel);
         menu.add(Menu.NONE, SELECT_ALL_ID, Menu.FIRST + 1, R.string.select_all)
-                .setIcon( R.drawable.ic_menu_select_all);
+                .setIcon(R.drawable.ic_menu_select_all);
         menu.add(Menu.NONE, UNSELECT_ALL_ID, Menu.FIRST + 2, R.string.unselect_all)
                 .setIcon(R.drawable.ic_menu_unselect_all);
         return true;

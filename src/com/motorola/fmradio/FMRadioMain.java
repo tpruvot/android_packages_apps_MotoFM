@@ -1,3 +1,4 @@
+
 package com.motorola.fmradio;
 
 import android.app.ActionBar;
@@ -28,7 +29,6 @@ import android.os.Message;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
 import android.os.RemoteException;
-import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -57,7 +57,7 @@ import java.text.MessageFormat;
 public class FMRadioMain extends ListActivity implements SeekBar.OnSeekBarChangeListener,
         View.OnClickListener, View.OnLongClickListener, View.OnTouchListener,
         ImageSwitcher.ViewFactory, OnSharedPreferenceChangeListener,
-        LoaderManager.LoaderCallbacks<Cursor>  {
+        LoaderManager.LoaderCallbacks<Cursor> {
     private static final String TAG = "FMRadioMain";
 
     private static int LIGHT_ON_TIME = 90000;
@@ -170,6 +170,7 @@ public class FMRadioMain extends ListActivity implements SeekBar.OnSeekBarChange
 
     private ListView mChannelList;
     private ChannelListAdapter mAdapter;
+    private ActionBar mActionBar;
 
     private IFMRadioPlayerService mService = null;
     private boolean mIsBound = false;
@@ -189,8 +190,6 @@ public class FMRadioMain extends ListActivity implements SeekBar.OnSeekBarChange
     private boolean useLoudSpeaker;
 
     private SharedPreferences mSharedPrefs;
-
-    private ActionBar mActionBar;
 
     private class ChannelListAdapter extends ResourceCursorAdapter {
         private class ViewHolder implements View.OnClickListener {
@@ -464,12 +463,7 @@ public class FMRadioMain extends ListActivity implements SeekBar.OnSeekBarChange
         Log.d(TAG, "onCreate()");
         super.onCreate(savedInstanceState);
 
-        mSharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-        mSharedPrefs.registerOnSharedPreferenceChangeListener(this);
-
         mActionBar = getActionBar();
-        mActionBarHidden = mSharedPrefs
-                .getBoolean(Preferences.KEY_HIDE_ACTIONBAR, false);
 
         setContentView(R.layout.main);
         setVolumeControlStream(FMUtil.STREAM_FM);
@@ -497,10 +491,19 @@ public class FMRadioMain extends ListActivity implements SeekBar.OnSeekBarChange
     }
 
     @Override
+    protected void onResume() {
+        Log.d(TAG, "onResume()");
+        super.onResume();
+        Preferences.getPrefs(this).registerOnSharedPreferenceChangeListener(this);
+        setupActionBar();
+    }
+
+    @Override
     protected void onPause() {
         Log.d(TAG, "onPause()");
         super.onPause();
 
+        Preferences.getPrefs(this).unregisterOnSharedPreferenceChangeListener(this);
         Preferences.setLastFrequency(this, mCurFreq);
         Preferences.setLastChannel(this, getSelectedPreset());
     }
@@ -880,15 +883,12 @@ public class FMRadioMain extends ListActivity implements SeekBar.OnSeekBarChange
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        Log.d(TAG, key+" changed");
+        Log.d(TAG, "Shared preference " + key + " changed");
         if (Preferences.KEY_HIDE_ACTIONBAR.equals(key)){
-            mActionBarHidden = sharedPreferences
-                    .getBoolean(Preferences.KEY_HIDE_ACTIONBAR, false);
             setupActionBar();
         } else if (Preferences.KEY_USE_LOUDSPEAKER.equals(key)) {
-            useLoudSpeaker = sharedPreferences
-                    .getBoolean(Preferences.KEY_USE_LOUDSPEAKER, false);
-            int routing = useLoudSpeaker ? FMRadioPlayerService.FM_ROUTING_SPEAKER
+            int routing = Preferences.useSpeakerByDefault(this)
+                    ? FMRadioPlayerService.FM_ROUTING_SPEAKER
                     : FMRadioPlayerService.FM_ROUTING_HEADSET;
             try {
                 mService.setAudioRouting(routing);
@@ -943,9 +943,6 @@ public class FMRadioMain extends ListActivity implements SeekBar.OnSeekBarChange
         }
     }
 
-    /**
-     * Setup FM panel.
-     */
     private void initPanelLayout() {
         mPanelLayout = (RelativeLayout) this.findViewById(R.id.fm_panel_layout);
     }
@@ -954,7 +951,7 @@ public class FMRadioMain extends ListActivity implements SeekBar.OnSeekBarChange
      * Hide Action bar if user prefers so.
      */
     private void setupActionBar() {
-        if (mActionBarHidden) {
+        if (Preferences.hideActionBar(this)) {
             mPanelLayout.setBackgroundDrawable(getResources()
                     .getDrawable(R.drawable.fm_background_noactionbar));
             if (mActionBar.isShowing()) {
@@ -969,9 +966,6 @@ public class FMRadioMain extends ListActivity implements SeekBar.OnSeekBarChange
         }
     }
 
-    /**
-     * Setup image switchers
-     */
     private void initImageSwitcher() {
         mFreqDigits = new ImageSwitcher[5];
         mFreqDigits[0] = (ImageSwitcher) findViewById(R.id.Img_switcher1);
@@ -1094,10 +1088,8 @@ public class FMRadioMain extends ListActivity implements SeekBar.OnSeekBarChange
     /**
      * Start auto seeking
      *
-     * @param v
-     *            The button that was pressed
-     * @param upward
-     *            Scan up or down
+     * @param v The button that was pressed
+     * @param upward Scan up or down
      */
     private void initiateSeek(View v, boolean upward) {
         mPreFreq = mCurFreq;
@@ -1111,8 +1103,7 @@ public class FMRadioMain extends ListActivity implements SeekBar.OnSeekBarChange
     /**
      * Show Seek Bar
      *
-     * @param show
-     *            show or not.
+     * @param show show or not.
      */
     private void showSeekBar(boolean show) {
         mSeekBar.setBackgroundDrawable(show ?
@@ -1126,10 +1117,8 @@ public class FMRadioMain extends ListActivity implements SeekBar.OnSeekBarChange
     /**
      * Show/hide Seek animation.
      *
-     * @param show
-     *            show or not
-     * @param upward
-     *            weather animation should move up or down
+     * @param show show or not
+     * @param upward weather animation should move up or down
      */
     private void showSeekAnimation(boolean show, boolean upward) {
         if (show && mScanBar.getVisibility() == View.INVISIBLE) {
@@ -1147,8 +1136,7 @@ public class FMRadioMain extends ListActivity implements SeekBar.OnSeekBarChange
      * Show/hide seek animation. Avoid calling showSeekAnimation(true), use
      * {@link #showSeekAnimation(boolean, boolean)} instead
      *
-     * @param show
-     *            show or not
+     * @param show show or not
      */
     private void showSeekAnimation(boolean show) {
         showSeekAnimation(show, true);
@@ -1334,14 +1322,6 @@ public class FMRadioMain extends ListActivity implements SeekBar.OnSeekBarChange
         }
     }
 
-    /**
-     * Update radio panel
-     *
-     * @param currentFreq
-     *            Current frequency
-     * @param isEditEnable
-     *            ?can be edited?
-     */
     @SuppressWarnings("deprecation")
     private void updateDisplayPanel(int currentFreq, boolean isEditEnable) {
         float progress = currentFreq - RANGE_START;

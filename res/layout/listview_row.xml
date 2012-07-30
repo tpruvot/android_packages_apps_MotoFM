@@ -28,7 +28,7 @@
         android:paddingLeft="@dimen/listview_items_padding_left_top"
         android:paddingRight="@dimen/listview_items_padding_right"
         android:paddingTop="@dimen/listview_items_padding_left_top"
-        android:singleLine="true" 
+        android:singleLine="true"
         android:textAppearance="?android:attr/textAppearanceSmall"/>
 
     <include layout="@layout/context_menu" />
@@ -46,6 +46,5 @@
         android:layout_centerVertical="true"
         android:paddingRight="@dimen/listview_peak_meter_one_padding_right"
         android:paddingTop="@dimen/peak_meter_padding_top" />
-
 
 </RelativeLayout>

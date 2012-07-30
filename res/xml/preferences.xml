@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory
-        android:key="general"
-        android:title="@string/general_settings_title" >
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="ignore_airplane_mode"
-            android:summary="@string/ignore_airplane_summary"
-            android:title="@string/ignore_airplane_title" />
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="ignore_no_headset"
-            android:summary="@string/ignore_no_headset_summary"
-            android:title="@string/ignore_no_headset_title" />
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="use_loudspeaker"
-            android:summary="@string/use_loudspeaker_headset_summary"
-            android:title="@string/use_loudspeaker_headset_title" />
+    <PreferenceCategory android:key="general"
+                        android:title="@string/general_settings_title">
+
+        <CheckBoxPreference android:key="ignore_airplane_mode"
+                            android:defaultValue="false"
+                            android:title="@string/ignore_airplane_title"
+                            android:summary="@string/ignore_airplane_summary" />
+
+        <CheckBoxPreference android:key="ignore_no_headset"
+                            android:defaultValue="false"
+                            android:title="@string/ignore_no_headset_title"
+                            android:summary="@string/ignore_no_headset_summary" />
+
+        <CheckBoxPreference android:key="use_loudspeaker"
+                            android:defaultValue="false"
+                            android:title="@string/use_loudspeaker_headset_title"
+                            android:summary="@string/use_loudspeaker_headset_summary" />
+
     </PreferenceCategory>
     <PreferenceCategory
         android:key="tuning"
@@ -49,6 +49,16 @@
                         android:summary="@string/media_button_summary"
                         android:entries="@array/media_button_entries"
                         android:entryValues="@array/media_button_values" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:key="interface"
+                        android:title="@string/interface_settings_title" >
+
+        <CheckBoxPreference android:defaultValue="false"
+                            android:key="hide_actionbar"
+                            android:summary="@string/hide_actionbar_summary"
+                            android:title="@string/hide_actionbar_title" />
 
     </PreferenceCategory>
 
