@@ -35,9 +35,6 @@
     <string name="fmradio_airplane_mode_enabled">Schalten Sie den Flugzeugmodus aus, um FM-Radio zu verwenden.</string>
     <string name="fmradio_waiting_for_power_on">Das FM-Radio wird geladen, bitte warten Sie.</string>
     <string name="error_start_scan">Die Sendersuche konnte nicht gestartet werden. Bitte versuchen Sie es noch einmal.</string>
-    <string name="service_start_error_title">Starten des FM-Radio-Services fehlgeschlagen</string>
-    <string name="service_start_error_msg">Das FM-Radio hat ein Problem festgestellt und muss beendet werden. Versuchen Sie das FM-Radio erneut zu starten.</string>
-    <string name="service_start_error_button">Beenden</string>
     <string name="fm_pty_list_01">News</string>
     <string name="fm_pty_list_02">Zeitgeschehen</string>
     <string name="fm_pty_list_03">Information</string>
@@ -119,7 +116,6 @@
     <string name="media_button_summary">Verhalten der Musiksteuerungs-Tasten (Zurück/Vorwärts) festlegen</string>
     <string name="media_button_entry_presets">Voreinstellung umschalten</string>
     <string name="media_button_entry_seek">Nächsten Sender suchen</string>
-
     <string name="notice">Hinweis</string>
     <string name="warning">Warnung</string>
     <string name="no_headset_ignore_message">Da das Headset als FM-Antenne benutzt wird, wird die Empfangsqualität stark verschlechtert sein, wenn das FM-Radio ohne Headset benutzt wird.</string>

@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:baselineAligned="false"
     android:orientation="horizontal" >
 
     <LinearLayout
@@ -28,6 +29,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5.0px"
+                    android:contentDescription="@string/image_cd"
                     android:src="@drawable/fm_stereo" />
 
                 <RelativeLayout
@@ -125,8 +127,6 @@
             android:layout_height="104.0px"
             android:orientation="vertical" >
 
-            <!-- android:background="@drawable/fm_background_button" -->
-
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="57.0px"
@@ -137,28 +137,32 @@
                     android:layout_width="wrap_content"
                     android:layout_height="57.0px"
                     android:layout_marginLeft="0.0px"
-                    android:background="@drawable/fm_autosearch_reduce_enable" />
+                    android:background="@drawable/fm_autosearch_reduce_enable"
+                    android:contentDescription="@string/image_cd" />
 
                 <ImageButton
                     android:id="@id/btn_reduce"
                     android:layout_width="wrap_content"
                     android:layout_height="57.0px"
                     android:layout_marginLeft="5.0px"
-                    android:background="@drawable/fm_manualadjust_reduce_enable" />
+                    android:background="@drawable/fm_manualadjust_reduce_enable"
+                    android:contentDescription="@string/image_cd" />
 
                 <ImageButton
                     android:id="@id/btn_add"
                     android:layout_width="wrap_content"
                     android:layout_height="57.0px"
                     android:layout_marginLeft="5.0px"
-                    android:background="@drawable/fm_manualadjust_plus_enable" />
+                    android:background="@drawable/fm_manualadjust_plus_enable"
+                    android:contentDescription="@string/image_cd" />
 
                 <ImageButton
                     android:id="@id/btn_seekforward"
                     android:layout_width="wrap_content"
                     android:layout_height="57.0px"
                     android:layout_marginLeft="5.0px"
-                    android:background="@drawable/fm_autosearch_plus_enable" />
+                    android:background="@drawable/fm_autosearch_plus_enable"
+                    android:contentDescription="@string/image_cd" />
             </LinearLayout>
 
             <RelativeLayout
@@ -170,19 +174,21 @@
                     android:layout_width="308.0px"
                     android:layout_height="13.0px"
                     android:layout_marginLeft="6.0px"
+                    android:contentDescription="@string/image_cd"
                     android:src="@drawable/progress_bar_01" />
 
                 <ImageView
                     android:id="@id/scan_anim"
                     android:layout_width="308.0px"
                     android:layout_height="13.0px"
-                    android:layout_marginLeft="6.0px" />
+                    android:layout_marginLeft="6.0px"
+                    android:contentDescription="@string/image_cd" />
             </RelativeLayout>
         </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="fill_parent"
         android:layout_weight="1.0"
         android:background="@drawable/fm_background_list"

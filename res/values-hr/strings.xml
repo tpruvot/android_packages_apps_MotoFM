@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="app_name">FM Radio</string>
     <string name="exit">Izađi iz FM</string>
     <string name="select_ch">Odabir unaprijed!</string>
@@ -100,7 +101,6 @@
     <string name="fm_pty_list_61">Vrijeme</string>
     <string name="fm_pty_list_62">Test u slučaju opasnosti</string>
     <string name="fm_pty_list_63">Opasnost</string>
-
     <string name="settings_title">Postavke</string>
     <string name="general_settings_title">Općenito</string>
     <string name="ignore_airplane_title">Ignoriraj mod za rad u avionu</string>
@@ -126,4 +126,5 @@
     <string name="airplane_ignore_warning_message">FM radio koristi ugrađeni Bluetooth hardver, koji može biti protuzakonito koristiti pod određenim uvjetima, npr. u avionu.\nJeste li sigurni da želite uključiti FM Radio u modu za rad u avionu?</string>
     <string name="yes">Da</string>
     <string name="no">Ne</string>
+
 </resources>

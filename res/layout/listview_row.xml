@@ -29,7 +29,7 @@
         android:paddingRight="@dimen/listview_items_padding_right"
         android:paddingTop="@dimen/listview_items_padding_left_top"
         android:singleLine="true"
-        android:textAppearance="?android:attr/textAppearanceSmall"/>
+        android:textAppearance="?android:attr/textAppearanceSmall" />
 
     <include layout="@layout/context_menu" />
 
@@ -37,6 +37,7 @@
         android:id="@+id/peak_two"
         style="@style/PeakMeter"
         android:layout_centerVertical="true"
+        android:contentDescription="@string/image_cd"
         android:paddingRight="@dimen/listview_peak_meter_two_padding_right"
         android:paddingTop="@dimen/peak_meter_padding_top" />
 
@@ -44,6 +45,7 @@
         android:id="@+id/peak_one"
         style="@style/PeakMeter"
         android:layout_centerVertical="true"
+        android:contentDescription="@string/image_cd"
         android:paddingRight="@dimen/listview_peak_meter_one_padding_right"
         android:paddingTop="@dimen/peak_meter_padding_top" />
 

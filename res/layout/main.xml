@@ -15,6 +15,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
+            android:contentDescription="@string/image_cd"
             android:padding="10dp"
             android:src="@drawable/fm_stereo" />
 
@@ -105,6 +106,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
+            android:contentDescription="@string/image_cd"
             android:visibility="invisible" />
 
         <SeekBar
@@ -133,7 +135,8 @@
         android:id="@+id/bottom_action_bar_control_divider"
         android:layout_width="match_parent"
         android:layout_height="@dimen/bottom_action_bar_divider_height"
-        android:background="@color/holo_blue_dark" />
+        android:background="@color/holo_blue_dark"
+        android:contentDescription="@string/image_cd" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -145,24 +148,28 @@
             android:id="@+id/btn_seekbackward"
             style="@style/BottomActionBarItem"
             android:layout_weight="1"
+            android:contentDescription="@string/image_cd"
             android:src="@drawable/fm_autosearch_reduce_enable" />
 
         <ImageButton
             android:id="@+id/btn_reduce"
             style="@style/BottomActionBarItem"
             android:layout_weight="1"
+            android:contentDescription="@string/image_cd"
             android:src="@drawable/fm_manualadjust_reduce_enable" />
 
         <ImageButton
             android:id="@+id/btn_add"
             style="@style/BottomActionBarItem"
             android:layout_weight="1"
+            android:contentDescription="@string/image_cd"
             android:src="@drawable/fm_manualadjust_plus_enable" />
 
         <ImageButton
             android:id="@+id/btn_seekforward"
             style="@style/BottomActionBarItem"
             android:layout_weight="1"
+            android:contentDescription="@string/image_cd"
             android:src="@drawable/fm_autosearch_plus_enable" />
     </LinearLayout>
 

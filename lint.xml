@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <lint>
-    <issue id="ParserError" severity="ignore" />
+    <issue id="HandlerLeak">
+        <ignore path="src/com/motorola/fmradio/FMRadioMain.java" />
+        <ignore path="src/com/motorola/fmradio/FMRadioPlayerService.java" />
+    </issue>
 </lint>

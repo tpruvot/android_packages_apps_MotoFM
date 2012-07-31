@@ -22,16 +22,15 @@
         <provider
             android:name="FMDataProvider"
             android:authorities="com.motorola.fmradio.FMDataProvider"
-            android:exported="true"
-            android:multiprocess="false" >
-        </provider>
+            android:exported="false"
+            android:multiprocess="false" />
 
         <activity
-                android:name=".FMRadioMain"
-                android:configChanges="orientation"
-                android:label="@string/app_name"
-                android:screenOrientation="portrait"
-                android:theme="@style/Theme" >
+            android:name=".FMRadioMain"
+            android:configChanges="orientation"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -39,14 +38,13 @@
             </intent-filter>
         </activity>
         <activity
-                android:name=".FMClearChannel"
-                android:label="FMClearChannel"
-                android:theme="@style/Theme" />
-
+            android:name=".FMClearChannel"
+            android:label="FMClearChannel"
+            android:theme="@style/Theme" />
         <activity
-                android:name=".SettingsActivity"
-                android:label="@string/settings_title"
-                android:theme="@style/Theme" />
+            android:name=".SettingsActivity"
+            android:label="@string/settings_title"
+            android:theme="@style/Theme" />
 
         <service
             android:name="FMRadioPlayerService"
@@ -58,15 +56,12 @@
         </service>
 
         <receiver
-                android:name="FMMediaButtonReceiver"
-                android:enabled="false">
-
+            android:name="FMMediaButtonReceiver"
+            android:enabled="false" >
             <intent-filter>
                 <action android:name="android.intent.action.MEDIA_BUTTON" />
             </intent-filter>
-
         </receiver>
-
     </application>
 
 </manifest>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string-array name="seek_sensitivity_entries" translatable="false">
         <item>@string/seek_sensitivity_entry_verystrong</item>
         <item>@string/seek_sensitivity_entry_strong</item>
@@ -7,7 +8,6 @@
         <item>@string/seek_sensitivity_entry_weak</item>
         <item>@string/seek_sensitivity_entry_veryweak</item>
     </string-array>
-
     <string-array name="seek_sensitivity_values" translatable="false">
         <item>18</item>
         <item>15</item>
@@ -15,15 +15,13 @@
         <item>9</item>
         <item>6</item>
     </string-array>
-
     <string-array name="media_button_entries" translatable="false">
         <item>@string/media_button_entry_presets</item>
         <item>@string/media_button_entry_seek</item>
     </string-array>
-
     <string-array name="media_button_values" translatable="false">
         <item>preset</item>
         <item>seek</item>
     </string-array>
-</resources>
 
+</resources>

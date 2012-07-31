@@ -66,5 +66,5 @@
     <item
         android:drawable="@drawable/progress_bar_21"
         android:duration="50"/>
- 
+
 </animation-list>
