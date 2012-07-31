@@ -45,6 +45,8 @@ public class FMMediaButtonReceiver extends BroadcastReceiver {
                 return FMRadioPlayerService.COMMAND_NEXT;
             case KeyEvent.KEYCODE_MEDIA_PREVIOUS:
                 return FMRadioPlayerService.COMMAND_PREV;
+            case KeyEvent.KEYCODE_MEDIA_STOP:
+                return FMRadioPlayerService.COMMAND_STOP;
         }
 
         return null;
@@ -73,14 +75,28 @@ public class FMMediaButtonReceiver extends BroadcastReceiver {
         }
 
         if (action == KeyEvent.ACTION_DOWN) {
-            if (keycode == KeyEvent.KEYCODE_HEADSETHOOK &&
-                    sHandler.hasMessages(MSG_DOUBLE_CLICK_TIMEOUT)) {
-                Log.v(TAG, "Detected double click of headset button, sending next command");
-                sHandler.removeMessages(MSG_DOUBLE_CLICK_TIMEOUT);
-                startServiceForCommand(context, FMRadioPlayerService.COMMAND_NEXT);
-            } else {
-                Message msg = sHandler.obtainMessage(MSG_DOUBLE_CLICK_TIMEOUT, keycode, 0, context);
-                sHandler.sendMessageDelayed(msg, DOUBLE_CLICK_TIMEOUT);
+            switch (keycode) {
+                case KeyEvent.KEYCODE_HEADSETHOOK:
+                    if (sHandler.hasMessages(MSG_DOUBLE_CLICK_TIMEOUT)) {
+                        Log.v(TAG, "Detected double click of headset button, sending next command");
+                        sHandler.removeMessages(MSG_DOUBLE_CLICK_TIMEOUT);
+                        startServiceForCommand(context, FMRadioPlayerService.COMMAND_NEXT);
+                    }
+                    break;
+                case KeyEvent.KEYCODE_MEDIA_PREVIOUS:
+                    startServiceForCommand(context, FMRadioPlayerService.COMMAND_PREV);
+                    break;
+                case KeyEvent.KEYCODE_MEDIA_NEXT:
+                    startServiceForCommand(context, FMRadioPlayerService.COMMAND_NEXT);
+                    break;
+                case KeyEvent.KEYCODE_MEDIA_STOP:
+                    startServiceForCommand(context, FMRadioPlayerService.COMMAND_STOP);
+                    break;
+                default: {
+                    Message msg = sHandler.obtainMessage(MSG_DOUBLE_CLICK_TIMEOUT, keycode, 0,
+                            context);
+                    sHandler.sendMessageDelayed(msg, DOUBLE_CLICK_TIMEOUT);
+                }
             }
         }
 

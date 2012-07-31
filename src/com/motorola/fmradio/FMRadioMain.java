@@ -106,7 +106,7 @@ public class FMRadioMain extends ListActivity implements SeekBar.OnSeekBarChange
     private int RANGE = 21000;
     private int RANGE_START = 87000;
 
-    private static final String RDS_TEXT_SEPARATOR = "..:";
+    public static final String RDS_TEXT_SEPARATOR = "..:";
 
     private static final int LONG_PRESS_SEEK_TIMEOUT = 1500;
     private static final int LONG_PRESS_TUNE_TIMEOUT = 50;
@@ -130,7 +130,7 @@ public class FMRadioMain extends ListActivity implements SeekBar.OnSeekBarChange
         R.drawable.fm_playing_list_4, R.drawable.fm_playing_list_5,
         R.drawable.fm_playing_list_6, R.drawable.fm_playing_list_7,
         R.drawable.fm_playing_list_8, R.drawable.fm_playing_list_9 };
-    private static final int[] PTY_STRINGS = new int[] {
+    public static final int[] PTY_STRINGS = new int[] {
         0,                       R.string.fm_pty_list_01, R.string.fm_pty_list_02,
         R.string.fm_pty_list_03, R.string.fm_pty_list_04, R.string.fm_pty_list_05,
         R.string.fm_pty_list_06, R.string.fm_pty_list_07, R.string.fm_pty_list_08,

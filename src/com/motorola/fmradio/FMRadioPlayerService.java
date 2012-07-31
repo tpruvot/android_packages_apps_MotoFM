@@ -23,6 +23,8 @@ import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
+import android.widget.RemoteViews;
 import com.motorola.android.fmradio.IFMRadioService;
 import com.motorola.android.fmradio.IFMRadioServiceCallback;
 import com.motorola.fmradio.FMDataProvider.Channels;
@@ -39,6 +41,7 @@ public class FMRadioPlayerService extends Service {
     public static final String COMMAND_TOGGLE_MUTE = "togglemute";
     public static final String COMMAND_NEXT = "next";
     public static final String COMMAND_PREV = "prev";
+    public static final String COMMAND_STOP = "stop";
 
     public static int FM_ROUTING_HEADSET = 0;
     public static int FM_ROUTING_SPEAKER = 1;
@@ -99,7 +102,7 @@ public class FMRadioPlayerService extends Service {
 
     private AudioManager mAM;
     private Notification mNotification;
-    private PendingIntent mActivityIntent;
+    private RemoteViews mNotificaionView;
 
     private int mCurFreq;
     private String mRdsStationName;
@@ -570,16 +573,52 @@ public class FMRadioPlayerService extends Service {
         launchIntent.setComponent(new ComponentName("com.motorola.fmradio", "com.motorola.fmradio.FMRadioMain"));
         launchIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
 
-        mActivityIntent = PendingIntent.getActivity(this, 0, launchIntent, 0);
-        mNotification = new Notification(R.drawable.fm_statusbar_icon, null, System.currentTimeMillis());
-        mNotification.flags |= Notification.FLAG_ONGOING_EVENT;
+        mNotification = new Notification();
+        mNotification.flags = Notification.FLAG_ONGOING_EVENT;
+        mNotification.icon = R.drawable.fm_statusbar_icon;
+        mNotification.contentIntent = PendingIntent.getActivity(this, 0, launchIntent, 0);
+    }
+
+    private CharSequence getRdsText() {
+        StringBuilder rdsText = new StringBuilder();
+        if (!TextUtils.isEmpty(mRdsStationName)) {
+            rdsText.append(mRdsStationName);
+        }
+        if (!TextUtils.isEmpty(mRdsRadioText)) {
+            if (rdsText.length() > 0) {
+                rdsText.append(FMRadioMain.RDS_TEXT_SEPARATOR);
+            }
+            rdsText.append(mRdsRadioText);
+        }
+        if (mRdsPTYValue >= 0 && mRdsPTYValue < FMRadioMain.PTY_STRINGS.length) {
+            int resId = FMRadioMain.PTY_STRINGS[mRdsPTYValue];
+            if (resId != 0) {
+                if (rdsText.length() > 0) {
+                    rdsText.append(FMRadioMain.RDS_TEXT_SEPARATOR);
+                }
+                rdsText.append(getString(resId));
+            }
+        }
+        if (rdsText.length() > 0) {
+            rdsText.append(" : ");
+        }
+        rdsText.append(FMUtil.formatFrequency(this, mCurFreq));
+        return rdsText.toString();
+    }
+
+    private CharSequence getCurrentStationName() {
+        Cursor cursor = getCurrentPresetCursor();
+        if (cursor != null && cursor.moveToFirst()) {
+            return FMUtil.getPresetListString(this, cursor);
+        } else {
+            return getString(R.string.untitled);
+        }
     }
 
     @Override
     public void onDestroy() {
         Log.d(TAG, "onDestroy()");
         super.onDestroy();
-
         shutdownFM();
         restoreAudioRoute();
         mHandler.removeCallbacksAndMessages(null);
@@ -627,6 +666,8 @@ public class FMRadioPlayerService extends Service {
                 handlePrevNextButton(true);
             } else if (COMMAND_PREV.equals(command)) {
                 handlePrevNextButton(false);
+            } else if (COMMAND_STOP.equals(command)) {
+                stopSelf(mServiceStartId);
             }
         }
 
@@ -900,9 +941,7 @@ public class FMRadioPlayerService extends Service {
         }
 
         /* TODO: add hint if muted? */
-        mNotification.setLatestEventInfo(this, stationName != null ? stationName : frequencyString,
-                stationName != null ? frequencyString : "", mActivityIntent);
-        startForeground(R.string.app_name, mNotification);
+        updateStatus();
 
         updateFmStateBroadcast(true);
 
@@ -921,6 +960,37 @@ public class FMRadioPlayerService extends Service {
         } else {
             updateMusicMetadata(null, null, false);
         }
+    }
+
+    private void updateStatus() {
+        if (mCurFreq == 0) {
+            return;
+        }
+
+        mNotificaionView = new RemoteViews(getPackageName(), R.layout.status_bar);
+        ComponentName rec = new ComponentName(getPackageName(),
+                FMMediaButtonReceiver.class.getName());
+        Intent mediaButtonIntent = new Intent(Intent.ACTION_MEDIA_BUTTON);
+        mediaButtonIntent.setComponent(rec);
+        KeyEvent mediaKey = new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_MEDIA_PREVIOUS);
+        mediaButtonIntent.putExtra(Intent.EXTRA_KEY_EVENT, mediaKey);
+        PendingIntent mediaPendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 1,
+                mediaButtonIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        mNotificaionView.setOnClickPendingIntent(R.id.status_bar_previous, mediaPendingIntent);
+        mediaKey = new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_MEDIA_NEXT);
+        mediaButtonIntent.putExtra(Intent.EXTRA_KEY_EVENT, mediaKey);
+        mediaPendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 2,
+                mediaButtonIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        mNotificaionView.setOnClickPendingIntent(R.id.status_bar_next, mediaPendingIntent);
+        mediaKey = new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_MEDIA_STOP);
+        mediaButtonIntent.putExtra(Intent.EXTRA_KEY_EVENT, mediaKey);
+        mediaPendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 3,
+                mediaButtonIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        mNotificaionView.setOnClickPendingIntent(R.id.status_bar_collapse, mediaPendingIntent);
+        mNotificaionView.setTextViewText(R.id.status_bar_track_name, getCurrentStationName());
+        mNotificaionView.setTextViewText(R.id.status_bar_artist_name, getRdsText());
+        mNotification.contentView = mNotificaionView;
+        startForeground(R.string.app_name, mNotification);
     }
 
     private void updateMusicMetadata(String artist, String title, boolean active) {
