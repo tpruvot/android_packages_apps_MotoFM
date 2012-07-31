@@ -187,9 +187,6 @@ public class FMRadioMain extends ListActivity implements SeekBar.OnSeekBarChange
     private boolean mScanning = false;
     private int mScannedStations = -1;
     private int mLongPressedButton = 0;
-    private boolean mActionBarHidden = false;
-    private boolean useLoudSpeaker;
-
     private SharedPreferences mSharedPrefs;
 
     private class ChannelListAdapter extends ResourceCursorAdapter {
@@ -301,6 +298,7 @@ public class FMRadioMain extends ListActivity implements SeekBar.OnSeekBarChange
         }
     };
 
+    // FIXME: Handler leak
     private final Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -1197,44 +1195,6 @@ public class FMRadioMain extends ListActivity implements SeekBar.OnSeekBarChange
         }
     }
 
-    @SuppressWarnings("unused")
-    private void disableUIExceptButton(View v) {
-        long id = v.getId();
-        for (ImageButton button : mSeekButtons) {
-            button.setEnabled(button.getId() == id);
-        }
-        // updateButtonDrawables();
-        mChannelList.setEnabled(false);
-    }
-
-    @SuppressWarnings("unused")
-    private void updateButtonDrawables() {
-        for (ImageButton button : mSeekButtons) {
-            boolean enabled = button.isEnabled();
-            int resId = 0;
-
-            switch (button.getId()) {
-                case R.id.btn_seekbackward:
-                    resId = enabled ? R.drawable.fm_autosearch_reduce_enable
-                            : R.drawable.fm_autosearch_reduce_disable;
-                    break;
-                case R.id.btn_reduce:
-                    resId = enabled ? R.drawable.fm_manualadjust_reduce_enable
-                            : R.drawable.fm_manualadjust_reduce_disable;
-                    break;
-                case R.id.btn_add:
-                    resId = enabled ? R.drawable.fm_manualadjust_plus_enable
-                            : R.drawable.fm_manualadjust_plus_disable;
-                    break;
-                case R.id.btn_seekforward:
-                    resId = enabled ? R.drawable.fm_autosearch_plus_enable
-                            : R.drawable.fm_autosearch_plus_disable;
-                    break;
-            }
-            button.setImageResource(resId);
-        }
-    }
-
     /**
      * Play the clicked preset.
      *
@@ -1324,7 +1284,6 @@ public class FMRadioMain extends ListActivity implements SeekBar.OnSeekBarChange
         }
     }
 
-    @SuppressWarnings("deprecation")
     private void updateDisplayPanel(int currentFreq, boolean isEditEnable) {
         float progress = currentFreq - RANGE_START;
         mSeekBar.setProgress((int) progress);

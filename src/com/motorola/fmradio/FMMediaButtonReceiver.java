@@ -63,7 +63,6 @@ public class FMMediaButtonReceiver extends BroadcastReceiver {
 
         int keycode = event.getKeyCode();
         int action = event.getAction();
-        long eventtime = event.getEventTime();
         String command = keycodeToCommand(keycode);
 
         Log.v(TAG, "Got media button event: action " + action +

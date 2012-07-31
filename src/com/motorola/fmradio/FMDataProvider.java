@@ -41,6 +41,7 @@ public class FMDataProvider extends ContentProvider {
     }
 
     private DatabaseHelper mOpenHelper;
+    private SQLiteDatabase mDatabase;
 
     private class DatabaseHelper extends SQLiteOpenHelper {
         DatabaseHelper(Context context) {
@@ -73,6 +74,7 @@ public class FMDataProvider extends ContentProvider {
     @Override
     public boolean onCreate() {
         mOpenHelper = new DatabaseHelper(getContext());
+        mDatabase = mOpenHelper.getWritableDatabase();
         return true;
     }
 
@@ -85,8 +87,6 @@ public class FMDataProvider extends ContentProvider {
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs,
             String sortOrder) {
         SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
-        @SuppressWarnings("deprecation")
-        SQLiteDatabase db = mOpenHelper.getReadableDatabase();
         switch (sUriMatcher.match(uri)) {
             case CHANNELS:
                 qb.setTables(CHANNEL_TABLE);
@@ -102,7 +102,7 @@ public class FMDataProvider extends ContentProvider {
                 throw new IllegalArgumentException("Unknown URI " + uri);
         }
 
-        Cursor c = qb.query(db, projection, selection, selectionArgs, null, null, null);
+        Cursor c = qb.query(mDatabase, projection, selection, selectionArgs, null, null, null);
         if (c != null) {
             c.setNotificationUri(getContext().getContentResolver(), uri);
         }
@@ -116,17 +116,15 @@ public class FMDataProvider extends ContentProvider {
 
     @Override
     public int update(Uri uri, ContentValues values, String where, String[] whereArgs) {
-        @SuppressWarnings("deprecation")
-        SQLiteDatabase db = mOpenHelper.getWritableDatabase();
         int count = 0;
 
         switch (sUriMatcher.match(uri)) {
             case CHANNELS:
-                count = db.update(CHANNEL_TABLE, values, where, whereArgs);
+                count = mDatabase.update(CHANNEL_TABLE, values, where, whereArgs);
                 break;
             case CHANNELS_ID: {
                 long id = ContentUris.parseId(uri);
-                count = db.update(CHANNEL_TABLE, values, "_id=?",
+                count = mDatabase.update(CHANNEL_TABLE, values, "_id=?",
                         new String[] { String.valueOf(id) });
                 break;
             }

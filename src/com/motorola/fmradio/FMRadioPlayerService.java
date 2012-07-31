@@ -395,6 +395,7 @@ public class FMRadioPlayerService extends Service {
         }
     };
 
+    // FIXME: Handler leak
     private final Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
