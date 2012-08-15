@@ -126,4 +126,20 @@
     <string name="yes">Oui</string>
     <string name="no">Non</string>
 
+    <string name="interface_settings_title">Interface</string>
+    <string name="hide_actionbar_summary">Cacher la barre de titre dans la fenêtre principale</string>
+    <string name="hide_actionbar_title">Cacher barre de titre</string>
+    <string name="untitled">Sans titre</string>
+    <string name="backup_restore_title">Sauvegardes</string>
+    <string name="backup_presets_title">Exporter les stations</string>
+    <string name="backup_presets_summary">Enregistre la liste des stations sur la carte SD</string>
+    <string name="backup_presets_dialog_message">Veuillez saisir le nom de la sauvegarde</string>
+    <string name="backup_presets_success_toast">Liste exportée avec succès.</string>
+    <string name="backup_presets_failure_toast">Impossible d\'exporter la liste des stations !</string>
+    <string name="restore_presets_title">Importer les stations</string>
+    <string name="restore_presets_summary">Remplace la liste de stations par une liste présente sur la carte SD</string>
+    <string name="restore_presets_success_toast">%1$d stations on été importées avec succès.</string>
+    <string name="restore_presets_failure_toast">Impossible d\'importer la sauvegarde !</string>
+    <string name="select_backup">Liste à importer</string>
+
 </resources>
