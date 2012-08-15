@@ -10,4 +10,6 @@ LOCAL_SRC_FILES := $(call all-subdir-java-files) \
 
 LOCAL_PACKAGE_NAME := MotoFM
 
+LOCAL_MODULE_TAGS := optional
+
 include $(BUILD_PACKAGE)
