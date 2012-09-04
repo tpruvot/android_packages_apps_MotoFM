@@ -123,9 +123,6 @@
     <string name="yes">Oui</string>
     <string name="no">Non</string>
 
-    <string name="interface_settings_title">Interface</string>
-    <string name="hide_actionbar_summary">Cacher la barre de titre dans la fenêtre principale</string>
-    <string name="hide_actionbar_title">Cacher barre de titre</string>
     <string name="untitled">Sans titre</string>
     <string name="backup_restore_title">Sauvegardes</string>
     <string name="backup_presets_title">Exporter les stations</string>
